@@ -11,9 +11,9 @@ function AppRouter() {
             <Routes>
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/" element={<Home />} />
-                <Route path="*" element={<div>404</div>} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="*" element={<div>404</div>} />
 
             </Routes>
         // </Router>

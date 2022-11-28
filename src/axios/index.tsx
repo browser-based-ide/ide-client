@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   // headers: {
   //     'Authorization': `Bearer token`
   // }
-});
-axiosInstance.defaults.withCredentials = true;
+})
+axiosInstance.defaults.withCredentials = true
 
-export default axiosInstance;
+export default axiosInstance
