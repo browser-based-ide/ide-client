@@ -2,15 +2,17 @@ import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import axios from '../axios'
 
+export type languagesOptions = 'Python' | 'JavaScript' | 'Cpp' | 'Java'
 interface codeEditorState {
   output: string // console log
   consoleError: string //compiler errors
   netWorkError: string // network like 404, 501
   loading: boolean
-  // language: string // need to add in future
+  language: languagesOptions
   codeSnippet: string
   runCodeSnippet: (codeSnippet: string, language: string) => void
   updateCodeSnippet: (codeSnippet: string) => void
+  setLanguage: (language: languagesOptions) => void
 }
 
 interface codeRunnerResponseInterface {
@@ -29,6 +31,7 @@ const useCodeEditorState = create<codeEditorState>()(
         netWorkError: '',
         loading: false,
         codeSnippet: '',
+        language: 'Python',
         runCodeSnippet: async (codeSnippet: string, language: string) => {
           const data = { codeSnippet, language }
           const response: codeRunnerResponseInterface = await axios.post(
@@ -44,6 +47,9 @@ const useCodeEditorState = create<codeEditorState>()(
         },
         updateCodeSnippet: (codeSnippet: string) => {
           set(state => ({ codeSnippet: codeSnippet }))
+        },
+        setLanguage: (language: languagesOptions) => {
+          set(state => ({ language: language }))
         },
       }),
       { name: 'codeEditor' }

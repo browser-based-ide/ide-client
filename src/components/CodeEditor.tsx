@@ -8,11 +8,10 @@ const CodeEditor = () => {
     selectOnLineNumbers: true,
   }
 
-  const [output, consoleError, updateCodeSnippet] = useCodeEditorState(
-    state => [state.output, state.consoleError, state.updateCodeSnippet]
+  const [language, output, consoleError, updateCodeSnippet] = useCodeEditorState(
+    state => [state.language, state.output, state.consoleError, state.updateCodeSnippet]
   )
   console.log(output)
-  const [language, setLanguage] = useState<string>('python')
 
   const handleEditorChange = (
     value: string | undefined,
@@ -33,14 +32,16 @@ const CodeEditor = () => {
             // height="80vh"
             defaultLanguage={language}
             options={options}
-            defaultValue='print("hello world")'
+            defaultValue='console.log("Hello World")'
             onChange={handleEditorChange}
           />
         </div>
         <div className='flex-1 bg-gray-800 text-cyan-50 p-2'>
           <h2>Console</h2>
           <h3>Output</h3>
-          <div style={{ whiteSpace: "pre-wrap" }} >{output.length > 0 ? output : ''}</div>
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            {output.length > 0 ? output : ''}
+          </div>
           <h3>Errors</h3>
           <div>{consoleError.length > 0 ? consoleError : ''}</div>
         </div>
