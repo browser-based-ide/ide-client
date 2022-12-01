@@ -1,6 +1,6 @@
 import CodeEditor from "../components/CodeEditor"
 import Navbar from "../components/Navbar"
-import Sidebar from "../components/Sidebar"
+
 
 const Home = () => {
   return (
@@ -16,19 +16,19 @@ const Home = () => {
           <div className="w-80 bg-gray-900 flex text-cyan-50 h-full flex-col ">
             {/* <div className="">SIDEBAR</div> */}
             <ul>
-              <li className="mb-3 rounded">
+              <li className=" rounded">
                 <h3 className="text-lg bg-gray-800 px-3 py-2">This is a problem title</h3>
               </li>
-              <li className="mb-3 rounded">
-                <h3 className="text-lg bg-gray-900 px-3 py-2">This is a problem title</h3>
+              <li className=" rounded">
+                <h3 className="text-lg bg-gray-900 px-3 py-2  hover:bg-gray-800">This is a problem title</h3>
               </li>
-              <li className="mb-3 rounded">
-                <h3 className="text-lg bg-gray-900 px-3 py-2">This is a problem title</h3>
+              <li className="rounded">
+                <h3 className="text-lg bg-gray-900 px-3 py-2 hover:bg-gray-800">This is a problem title</h3>
               </li>
-              <li className="mb-3 rounded">
-                <h3 className="text-lg bg-gray-900 px-3 py-2">This is a problem title</h3>
+              <li className="rounded">
+                <h3 className="text-lg bg-gray-900 px-3 py-2 hover:bg-gray-800">This is a problem title</h3>
               </li>
-            
+
             </ul>
           </div>
 

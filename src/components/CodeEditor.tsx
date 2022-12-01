@@ -1,6 +1,6 @@
 import Editor from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useCodeEditorState from '../store/codeRunner'
 
 const CodeEditor = () => {
@@ -11,7 +11,12 @@ const CodeEditor = () => {
   const [language, output, consoleError, updateCodeSnippet] = useCodeEditorState(
     state => [state.language, state.output, state.consoleError, state.updateCodeSnippet]
   )
-  console.log(output)
+  // console.log(output)
+
+  const [defaultValue, setDefaultValue] = useState('')
+
+
+
 
   const handleEditorChange = (
     value: string | undefined,
@@ -22,6 +27,31 @@ const CodeEditor = () => {
       updateCodeSnippet(value)
     }
   }
+
+  useEffect(() => {
+    // console.log(language)
+
+    if (language === 'JavaScript') {
+      setDefaultValue(`console.log('Hello World')`)
+    } else if (language === 'Python') {
+      setDefaultValue(`print('Hello World')`)
+    } else if (language === 'Java') {
+      setDefaultValue(`System.out.println("Hello World");`)
+    }
+    else if (language === 'Cpp') {
+      setDefaultValue(`#include <iostream>
+    using namespace std;
+    int main() {
+    cout << "Hello World";
+    return 0;
+    }`)
+
+    }
+
+  }, [language])
+
+
+
 
   return (
     <>
@@ -40,6 +70,7 @@ const CodeEditor = () => {
               options={options}
               defaultValue='console.log("Hello World")'
               onChange={handleEditorChange}
+              value={defaultValue}
             />
           </div>
           <div className='flex-1 bg-gray-900 text-cyan-50 p-2'>
@@ -47,7 +78,7 @@ const CodeEditor = () => {
             <div className='flex flex-col'>
 
               <label htmlFor="input">Custom input</label>
-              <input type="text" className='text-gray-900 p-2 bg-gray-200'/>
+              <input type="text" className='text-gray-900 p-2 bg-gray-200' />
             </div>
             <h3 className='border-b-2 border-gray-800'>Output</h3>
             <div style={{ whiteSpace: 'pre-wrap' }} className="text-green-600">
