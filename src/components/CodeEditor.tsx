@@ -25,25 +25,37 @@ const CodeEditor = () => {
 
   return (
     <>
-      <div className='flex flex-row h-full w-full'>
-        <div className='flex-1'>
-          <Editor
-            theme='vs-dark'
-            // height="80vh"
-            defaultLanguage={language}
-            options={options}
-            defaultValue='console.log("Hello World")'
-            onChange={handleEditorChange}
-          />
+      <div className='flex flex-column h-full w-full'>
+        <div className='flex-1 bg-gray-800 text-gray-100 p-5'>
+
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi illo reiciendis quae. Quo, a animi! Minima quasi nostrum a eum totam, cum rem, aperiam ut reiciendis culpa, quidem voluptatem doloribus!
         </div>
-        <div className='flex-1 bg-gray-800 text-cyan-50 p-2'>
-          <h2>Console</h2>
-          <h3>Output</h3>
-          <div style={{ whiteSpace: 'pre-wrap' }}>
-            {output.length > 0 ? output : ''}
+        <div className='flex flex-col flex-1'>
+
+          <div className='h-2/4'>
+            <Editor
+              theme='vs-dark'
+              // height="80vh"
+              defaultLanguage={language}
+              options={options}
+              defaultValue='console.log("Hello World")'
+              onChange={handleEditorChange}
+            />
           </div>
-          <h3>Errors</h3>
-          <div>{consoleError.length > 0 ? consoleError : ''}</div>
+          <div className='flex-1 bg-gray-900 text-cyan-50 p-2'>
+            {/* <h2>CONSOLE</h2> */}
+            <div className='flex flex-col'>
+
+              <label htmlFor="input">Custom input</label>
+              <input type="text" className='text-gray-900 p-2 bg-gray-200'/>
+            </div>
+            <h3 className='border-b-2 border-gray-800'>Output</h3>
+            <div style={{ whiteSpace: 'pre-wrap' }} className="text-green-600">
+              {output.length > 0 ? output : ''}
+            </div>
+            <h3 className='border-b-2 border-gray-800'>Errors</h3>
+            <div className='text-red-500'>{consoleError.length > 0 ? consoleError : ''}</div>
+          </div>
         </div>
       </div>
     </>
