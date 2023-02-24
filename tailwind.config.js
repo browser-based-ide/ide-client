@@ -1,15 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {
-      fontFamily:{
-        'sans': ['Inter', 'sans-serif'],
-        // 'mono': ['Space Grotesk', 'monospace'],
-      }
-    },
-  },
-  plugins: [],
-}
+	content: ["./src/**/*.{js,jsx,ts,tsx}"],
+	theme: {
+		extend: {
+			fontFamily: {
+				sans: ["Inter", "sans-serif"],
+				// 'mono': ['Space Grotesk', 'monospace'],
+			},
+		},
+	},
+	plugins: [],
+};
