@@ -13,7 +13,7 @@ const Navbar = () => {
 			state.setLanguage,
 		]);
 
-	const languagesOptions = ["Python", "JavaScript", "Cpp", "Java"];
+	const languagesOptions = ["Python", "Javascript", "Cpp", "Java"];
 	const onLanguageChangeHandler = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {

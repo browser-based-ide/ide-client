@@ -2,7 +2,7 @@ import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { networkService } from "../../services";
 
-export type languagesOptions = "Python" | "JavaScript" | "Cpp" | "Java";
+export type languagesOptions =  "Javascript" | "Python" | "Cpp" | "Java";
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors

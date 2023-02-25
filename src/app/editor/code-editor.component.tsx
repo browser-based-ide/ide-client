@@ -4,15 +4,17 @@ import * as monaco from "monaco-editor";
 import { useState, useEffect } from "react";
 import useCodeEditorState from "../../store/editor/code-runner";
 
-const CodeEditor = () => {
+// loader.config({ monaco });
 
+const CodeEditor = () => {
 	const options = {
 		minimap: {
 			enabled: false,
 		},
 
 		fontSize: 18,
-		fontFamily: "JetBrains Mono",
+		// fontFamily: "JetBrains Mono",
+		fontFamily: "IBM Plex Mono",
 		acceptSuggestionOnCommitCharacter: true,
 		// "autoIndent": false,
 		automaticLayout: true,
@@ -85,7 +87,7 @@ const CodeEditor = () => {
 	useEffect(() => {
 		// console.log(language)
 
-		if (language === "JavaScript") {
+		if (language === "Javascript") {
 			setDefaultValue(`console.log('Hello World')`);
 		} else if (language === "Python") {
 			setDefaultValue(`print('Hello World')`);
@@ -107,13 +109,21 @@ const CodeEditor = () => {
 				<div className="flex h-full">
 					<div className="flex-1">
 						<Editor
-							theme="vs-dark"
-							defaultLanguage={language}
+							theme={"vs-dark"}
+							defaultLanguage={"python"} // "javascript"
 							options={options}
-							defaultValue='console.log("Hello World")'
+							defaultValue={`print('Hello World')`}
 							onChange={handleEditorChange}
 							value={defaultValue}
 						/>
+						{/* <Editor
+							theme="vs-dark"
+							defaultLanguage={language}
+							options={options}
+							defaultValue={defaultValue}
+							onChange={handleEditorChange}
+							value={defaultValue}
+						/> */}
 					</div>
 					<div className=" bg-[#1e1e1e] text-cyan-50 p-2 flex-1 flex flex-col gap-4">
 						<div className="flex w-full gap-4">
