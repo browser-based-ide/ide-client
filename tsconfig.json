@@ -17,7 +17,8 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"noImplicitAny": false,
-		"typeRoots": ["node_modules/yup"]
+		"typeRoots": ["node_modules/yup"],
+		"types": ["node", "jest", "react", "react-dom", "react-router-dom"]
 	},
 	"include": ["src", "App.tsx"]
 }

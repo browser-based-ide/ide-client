@@ -30,9 +30,12 @@ const Navbar = () => {
 		<nav className="py-4 px-4 flex justify-between bg-neutral-900 items-center text-gray-50">
 			<Link to="/">
 				<div className="font-mono text-2xl font-bold cyan-500 text-gray-900">
-					<h1 className="text-[#DDFF33]">EDITOR</h1>
+					<h1 className="text-[#DDFF33]">IDE</h1>
 				</div>
 			</Link>
+
+
+
 
 			{location.pathname === "/editor" && (
 				<div className="flex gap-4">
