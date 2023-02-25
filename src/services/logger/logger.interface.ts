@@ -2,30 +2,30 @@
  * Allowed Log input types
  */
 export enum LogLevel {
-  Log = 5,
-  Debug = 4,
-  Info = 3,
-  Warn = 2,
-  Error = 1,
+	Log = 5,
+	Debug = 4,
+	Info = 3,
+	Warn = 2,
+	Error = 1,
 }
 
 /**
  * Logger Interface. Implementations should implement and expose the following methods: info, debug, warn, error
  */
 export interface ILogger {
-  log: (msg: string, meta?: any[]) => void;
-  debug: (msg: string, meta?: any[]) => void;
-  info: (msg: string, meta?: any[]) => void;
-  warn: (msg: string, meta?: any[]) => void;
-  error: (msg: string, meta?: any[]) => void;
+	log: (msg: string, meta?: any[]) => void;
+	debug: (msg: string, meta?: any[]) => void;
+	info: (msg: string, meta?: any[]) => void;
+	warn: (msg: string, meta?: any[]) => void;
+	error: (msg: string, meta?: any[]) => void;
 }
 
 /**
  * LoggerConfiguration object interface
  */
 export interface ILoggerConfiguration<T> {
-  level: LogLevel;
-  transporters: Array<ITransporter<T>>;
+	level: LogLevel;
+	transporters: Array<ITransporter<T>>;
 }
 
 /**
@@ -35,24 +35,24 @@ export interface ILoggerConfiguration<T> {
  * instance before the transporters write processing
  */
 export interface ICapturedPayload {
-  level: LogLevel;
-  message: string;
-  payload: any[];
-  timestamp: number;
+	level: LogLevel;
+	message: string;
+	payload: any[];
+	timestamp: number;
 }
 
 /**
  * Logger Transporters
  */
 export interface ITransporter<T> {
-  write: (payload: ICapturedPayload, level?: LogLevel) => void;
-  doWrite: (payload: T, level?: LogLevel) => void;
+	write: (payload: ICapturedPayload, level?: LogLevel) => void;
+	doWrite: (payload: T, level?: LogLevel) => void;
 }
 
 export type TransportTemplate<T> = (p: ICapturedPayload) => T;
 
 export interface ILogMessage {
-  message: string;
-  payload: any[];
-  timestamp: number;
+	message: string;
+	payload: any[];
+	timestamp: number;
 }

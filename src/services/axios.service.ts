@@ -8,7 +8,6 @@ const axiosInstance = axios.create({
 
 // setup http progress bar
 
-
 // setup request interceptor
 axiosInstance.interceptors.request.use(requestInterceptor);
 

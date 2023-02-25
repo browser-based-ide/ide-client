@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { loggerService, networkService } from "../../services";
+import { networkService } from "../../services";
 import { useAuthStore } from "../../store";
 import { IUser } from "../interfaces";
 import { useUser } from "../shared/hooks";
@@ -36,38 +36,31 @@ const Login: React.FC = () => {
 		void getAccessToken();
 	});
 
-	// query service by email
-	// if not exist, add app user
 	React.useEffect(() => {
 		if (doesAppUserExist || !authToken || !user) {
 			return;
 		}
 
 		const getUser = async () => {
-			try {
-				const userEmail: string = user.email;
-				const data = await networkService.get<IUser>(
-					`user?email=${userEmail}`
-				);
-
-				setAuthUser(data);
-			} catch (error) {
-				loggerService.error(error);
-			}
+			const userEmail: string = user.email;
+			let appUser = await networkService.get<IUser>(
+				`user?email=${userEmail}`
+			);
 
 			// add app user if doesn't exist one
 			if (!appUser) {
-				const data = await networkService.post<IUser>("user", {
+				appUser = await networkService.post<IUser>("user", {
 					active: true,
 					email: user.email,
 					firstName: user.name,
 				});
-				setAuthUser(data);
 			}
+
+			setAuthUser(appUser);
 		};
 
 		void getUser();
-	}, [user, authToken, doesAppUserExist, setAuthUser, appUser]);
+	}, [user, authToken, doesAppUserExist, setAuthUser]);
 
 	if (doesAppUserExist) {
 		// const redirectUri = getAuthRedirect(serviceProvider.onboardingStatus)

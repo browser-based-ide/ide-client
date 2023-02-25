@@ -53,7 +53,10 @@ const useCodeEditorState = create<codeEditorState>()(
 					set((state) => ({ language }));
 				},
 			}),
-			{ name: "codeEditor" }
+			{
+				name: "auth", // unique name
+				getStorage: () => sessionStorage, // (optional) by default, 'localStorage' is used
+			}
 		)
 	)
 );
