@@ -1,8 +1,8 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { networkService } from "../../services";
+import { networkService } from "../services";
 
-export type languagesOptions =  "Javascript" | "Python" | "Cpp" | "Java";
+export type languagesOptions = "Javascript" | "Python" | "Cpp" | "Java";
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors
@@ -53,7 +53,10 @@ const useCodeEditorState = create<codeEditorState>()(
 					set((state) => ({ language }));
 				},
 			}),
-			{ name: "codeEditor" }
+			{
+				name: "auth", // unique name
+				getStorage: () => sessionStorage, // (optional) by default, 'localStorage' is used
+			}
 		)
 	)
 );

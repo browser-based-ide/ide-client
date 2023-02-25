@@ -28,14 +28,7 @@ const Home = () => {
 };
 
 const Header = () => {
-	const languages = [
-		"JavaScript",
-		"Python",
-		"Java",
-		"C++",
-		"C",
-		"PHP"
-	];
+	const languages = ["JavaScript", "Python", "Java", "C++", "C", "PHP"];
 	return (
 		<div className="w-full h-16 flex flex-shrink-0 items-center justify-between px-4 lg:px-6 border-b border-gray-200 dark:border-gray-800">
 			<a href="/" className="flex items-center cursor-pointer">
