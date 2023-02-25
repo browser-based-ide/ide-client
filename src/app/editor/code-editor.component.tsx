@@ -1,8 +1,8 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
-import { useState, useEffect } from "react";
-import useCodeEditorState from "../../store/editor/code-runner";
+import { useEffect, useState } from "react";
+import useCodeEditorState from "../../store/code-runner";
 
 // loader.config({ monaco });
 

@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import useCodeEditorState, {
 	languagesOptions,
-} from "../../../store/editor/code-runner";
+} from "../../../store/code-runner";
 
 const Navbar = () => {
 	const location = useLocation();
@@ -33,9 +33,6 @@ const Navbar = () => {
 					<h1 className="text-[#DDFF33]">IDE</h1>
 				</div>
 			</Link>
-
-
-
 
 			{location.pathname === "/editor" && (
 				<div className="flex gap-4">
