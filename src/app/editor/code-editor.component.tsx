@@ -81,7 +81,6 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		state.consoleError,
 	]);
 
-
 	const [code, setCode] = useState("");
 
 	useEffect(() => {
@@ -141,7 +140,6 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 			socketRef.current?.off(SocketActions.CODE_CHANGED);
 		};
 	}, [socketRef.current, editorRef.current]);
-
 
 	return (
 		<>

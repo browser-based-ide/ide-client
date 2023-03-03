@@ -19,7 +19,6 @@ export function debounce(func: Function, wait: number, immediate: boolean) {
 	};
 }
 
-
 export function getPropertyValue<T>(
 	object: { [key: string]: any },
 	propertyPath: string,

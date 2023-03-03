@@ -1,7 +1,6 @@
 import { SocketOptions } from "dgram";
 import { io, ManagerOptions, Socket } from "socket.io-client";
 
-
 export const SocketActions = {
 	JOIN: "join",
 	JOINED: "joined",

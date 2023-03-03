@@ -18,7 +18,7 @@ const Home = () => {
 
 	// socket io
 	const { sessionId } = useParams();
-		const editorRef = useRef(null);
+	const editorRef = useRef(null);
 	const authUserName = useAuthStore((state) => state.userName);
 
 	const { currentUserJoined, socketRef } = useSocket(
@@ -33,7 +33,11 @@ const Home = () => {
 			<div className="flex min-h-screen fixed w-full">
 				<div className="w-full">
 					<div className="flex justify-between h-full items-center ">
-						<CodeEditor socketRef={socketRef} sessionId= {sessionId} editorRef={editorRef}/>
+						<CodeEditor
+							socketRef={socketRef}
+							sessionId={sessionId}
+							editorRef={editorRef}
+						/>
 					</div>
 				</div>
 			</div>
