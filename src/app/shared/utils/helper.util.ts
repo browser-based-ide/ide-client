@@ -19,18 +19,6 @@ export function debounce(func: Function, wait: number, immediate: boolean) {
 	};
 }
 
-// export function getAuthRedirect(status: string, returnUrl: string = null) {
-//   const pathname = "/onboarding";
-
-//   if (!status) return pathname;
-//   return status === OnboardingStep.Welcome
-//     ? `${pathname}/profile`
-//     : status === OnboardingStep.Profile
-//     ? `${pathname}/availability`
-//     : status === OnboardingStep.Availability
-//     ? `${pathname}/organization`
-//     : returnUrl || "/calendar";
-// }
 
 export function getPropertyValue<T>(
 	object: { [key: string]: any },

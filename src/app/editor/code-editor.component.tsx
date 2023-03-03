@@ -1,12 +1,24 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 import useCodeEditorState from "../../store/code-runner";
+import { SocketActions } from "../shared/utils/socket.util";
 
 // loader.config({ monaco });
 
-const CodeEditor = () => {
+interface ICodeEditor {
+	socketRef: React.MutableRefObject<Socket | null>;
+	sessionId: string;
+	editorRef: React.MutableRefObject<any>;
+}
+
+const CodeEditor: React.FC<ICodeEditor> = ({
+	socketRef,
+	sessionId,
+	editorRef,
+}) => {
 	const options = {
 		minimap: {
 			enabled: false,
@@ -63,38 +75,24 @@ const CodeEditor = () => {
 		wordWrapMinified: true,
 	};
 
-	const [language, output, consoleError, updateCodeSnippet] =
-		useCodeEditorState((state) => [
-			state.language,
-			state.output,
-			state.consoleError,
-			state.updateCodeSnippet,
-		]);
-	// console.log(output)
+	const [language, output, consoleError] = useCodeEditorState((state) => [
+		state.language,
+		state.output,
+		state.consoleError,
+	]);
 
-	const [defaultValue, setDefaultValue] = useState("");
 
-	const handleEditorChange = (
-		value: string | undefined,
-		event: monaco.editor.IModelContentChangedEvent
-	) => {
-		console.log(value);
-		if (value) {
-			updateCodeSnippet(value);
-		}
-	};
+	const [code, setCode] = useState("");
 
 	useEffect(() => {
-		// console.log(language)
-
 		if (language === "Javascript") {
-			setDefaultValue(`console.log('Hello World')`);
+			setCode(`console.log('Hello World')`);
 		} else if (language === "Python") {
-			setDefaultValue(`print('Hello World')`);
+			setCode(`print('Hello World')`);
 		} else if (language === "Java") {
-			setDefaultValue(`System.out.println("Hello World");`);
+			setCode(`System.out.println("Hello World");`);
 		} else if (language === "Cpp") {
-			setDefaultValue(`#include <iostream>
+			setCode(`#include <iostream>
     using namespace std;
     int main() {
     cout << "Hello World";
@@ -103,6 +101,48 @@ const CodeEditor = () => {
 		}
 	}, [language]);
 
+	const handleEditorChange = (
+		value: string | undefined,
+		event: monaco.editor.IModelContentChangedEvent
+	) => {
+		if (value) {
+			if (!event.isFlush) {
+				socketRef.current.emit(SocketActions.CODE_CHANGED, {
+					sessionId,
+					code: value,
+				});
+			}
+		}
+	};
+	// get position of cursor
+
+	const handleEditorDidMount = (editor, monaco) => {
+		editorRef.current = editor;
+
+		editor.onDidChangeCursorPosition((event) => {
+			const position = editor.getPosition();
+			// console.log(position);
+		});
+	};
+
+	useEffect(() => {}, []);
+
+	useEffect(() => {
+		socketRef.current?.on(SocketActions.CODE_CHANGED, ({ code }) => {
+			if (code !== null && code !== undefined) {
+				if (editorRef.current) {
+					editorRef.current.setValue(code);
+				} else {
+					setCode(code);
+				}
+			}
+		});
+		return () => {
+			socketRef.current?.off(SocketActions.CODE_CHANGED);
+		};
+	}, [socketRef.current, editorRef.current]);
+
+
 	return (
 		<>
 			<div className="h-full w-full">
@@ -110,20 +150,12 @@ const CodeEditor = () => {
 					<div className="flex-1">
 						<Editor
 							theme={"vs-dark"}
-							defaultLanguage={"python"} // "javascript"
 							options={options}
-							defaultValue={`print('Hello World')`}
 							onChange={handleEditorChange}
-							value={defaultValue}
+							onMount={handleEditorDidMount}
+							language={language.toLocaleLowerCase()}
+							value={code}
 						/>
-						{/* <Editor
-							theme="vs-dark"
-							defaultLanguage={language}
-							options={options}
-							defaultValue={defaultValue}
-							onChange={handleEditorChange}
-							value={defaultValue}
-						/> */}
 					</div>
 					<div className=" bg-[#1e1e1e] text-cyan-50 p-2 flex-1 flex flex-col gap-4">
 						<div className="flex w-full gap-4">

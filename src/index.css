@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.monaco-editor .cursors-layer > .cursor {
+	border: 2px solid aqua !important;
+}
+
 /* @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap" ); */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");

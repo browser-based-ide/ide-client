@@ -1,4 +1,8 @@
+import { useRef } from "react";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../store";
 import Navbar from "../shared/components/navbar.component";
+import useSocket from "../shared/hooks/use-socket.hook";
 import CodeEditor from "./code-editor.component";
 
 const Home = () => {
@@ -12,13 +16,24 @@ const Home = () => {
 		"Ruby",
 	];
 
+	// socket io
+	const { sessionId } = useParams();
+		const editorRef = useRef(null);
+	const authUserName = useAuthStore((state) => state.userName);
+
+	const { currentUserJoined, socketRef } = useSocket(
+		sessionId,
+		authUserName,
+		editorRef
+	);
+
 	return (
 		<>
 			<Navbar />
 			<div className="flex min-h-screen fixed w-full">
 				<div className="w-full">
 					<div className="flex justify-between h-full items-center ">
-						<CodeEditor />
+						<CodeEditor socketRef={socketRef} sessionId= {sessionId} editorRef={editorRef}/>
 					</div>
 				</div>
 			</div>

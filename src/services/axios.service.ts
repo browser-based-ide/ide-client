@@ -3,7 +3,7 @@ import appConstants from "../app/shared/config";
 import { requestInterceptor, responseInterceptor } from "./interceptors";
 
 const axiosInstance = axios.create({
-	baseURL: appConstants.baseUrl,
+	baseURL: `${appConstants.baseUrl}/api`,
 });
 
 // setup http progress bar

@@ -3,9 +3,23 @@ import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { IAuthInfo, IUser } from "../app/interfaces";
 
+const userNames = [
+	"John",
+	"Paul",
+	"George",
+	"Ringo",
+	"Pete",
+	"Jonson",
+	"Manish",
+	"Hitesh",
+	"Kumar",
+	"Shubham",
+];
+
 interface AuthState {
 	token: string;
 	user: IUser;
+	userName: string;
 	setAuthToken: (x: string) => void;
 	setAuthState: (x?: IAuthInfo) => void;
 	setAuthUser: (x: IUser) => void;
@@ -18,6 +32,8 @@ const useAuthStore = create<AuthState>()(
 			(set) => ({
 				token: "",
 				user: {} as IUser,
+				userName:
+					userNames[Math.floor(Math.random() * userNames.length)],
 				setAuthToken: (token) =>
 					set(
 						produce((state) => {

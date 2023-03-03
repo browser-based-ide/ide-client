@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import useCodeEditorState, {
-	languagesOptions,
+	languagesOptions
 } from "../../../store/code-runner";
 
 const Navbar = () => {
@@ -34,7 +34,7 @@ const Navbar = () => {
 				</div>
 			</Link>
 
-			{location.pathname === "/editor" && (
+			{location.pathname.startsWith("/editor")  && (
 				<div className="flex gap-4">
 					<select
 						onChange={onLanguageChangeHandler}

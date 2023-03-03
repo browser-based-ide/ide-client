@@ -8,8 +8,7 @@ import { useUser } from "../shared/hooks";
 
 const Login: React.FC = () => {
 	const appUser = useUser(),
-		doesAppUserExist = !!appUser?.id,
-		location = useLocation();
+		doesAppUserExist = !!appUser?.id;
 
 	const [authToken, setAuthToken] = useAuthStore((state) => [
 			state.token,
@@ -63,9 +62,8 @@ const Login: React.FC = () => {
 	}, [user, authToken, doesAppUserExist, setAuthUser]);
 
 	if (doesAppUserExist) {
-		// const redirectUri = getAuthRedirect(serviceProvider.onboardingStatus)
-		const redirectUri = "/editor";
-		return <Navigate to={redirectUri} state={{ from: location }} replace />;
+		const redirectUri = "/editor/1";
+		return <Navigate to={redirectUri} replace />;
 	}
 
 	return null;
