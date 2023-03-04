@@ -2,39 +2,40 @@ import { Link, useLocation } from "react-router-dom";
 import useCodeEditorState, {
 	languagesOptions,
 } from "../../../store/code-runner";
+import ProfileDropdown from "./profile-dropdown.component";
 
 const Navbar = () => {
-	const location = useLocation();
-	const [language, codeSnippet, runCodeSnippet, setLanguage] =
-		useCodeEditorState((state) => [
-			state.language,
-			state.codeSnippet,
-			state.runCodeSnippet,
-			state.setLanguage,
-		]);
+	// const location = useLocation();
+	// const [language, codeSnippet, runCodeSnippet, setLanguage] =
+	// 	useCodeEditorState((state) => [
+	// 		state.language,
+	// 		state.codeSnippet,
+	// 		state.runCodeSnippet,
+	// 		state.setLanguage,
+	// 	]);
 
-	const languagesOptions = ["Python", "Javascript", "Cpp", "Java"];
-	const onLanguageChangeHandler = (
-		event: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		event.preventDefault();
-		console.log("User Selected Value - ", event.target.value);
-		setLanguage(event.target.value as languagesOptions);
-	};
+	// const languagesOptions = ["Python", "Javascript", "Cpp", "Java"];
+	// const onLanguageChangeHandler = (
+	// 	event: React.ChangeEvent<HTMLSelectElement>
+	// ) => {
+	// 	event.preventDefault();
+	// 	console.log("User Selected Value - ", event.target.value);
+	// 	setLanguage(event.target.value as languagesOptions);
+	// };
 
-	const handleCodeSubmit = () => {
-		runCodeSnippet(codeSnippet, language);
-	};
+	// const handleCodeSubmit = () => {
+	// 	runCodeSnippet(codeSnippet, language);
+	// };
 
 	return (
-		<nav className="py-4 px-4 flex justify-between bg-neutral-900 items-center text-gray-50">
+		<nav className="h-14 py-4 px-4 flex justify-between bg-neutral-900 items-center text-gray-50">
 			<Link to="/">
 				<div className="font-mono text-2xl font-bold cyan-500 text-gray-900">
 					<h1 className="text-[#DDFF33]">IDE</h1>
 				</div>
 			</Link>
-
-			{location.pathname.startsWith("/editor") && (
+			<ProfileDropdown />
+			{/* {location.pathname.startsWith("/editor") && (
 				<div className="flex gap-4">
 					<select
 						onChange={onLanguageChangeHandler}
@@ -50,7 +51,7 @@ const Navbar = () => {
 						RUN
 					</button>
 				</div>
-			)}
+			)} */}
 			{/* <div>
         <ul className='flex gap-4 justify-center items-center'>
           <li>Logout</li>
