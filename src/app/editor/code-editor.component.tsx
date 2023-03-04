@@ -1,4 +1,4 @@
-import { Transition } from "@headlessui/react";
+import { Transition, Tab } from "@headlessui/react";
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
@@ -156,6 +156,10 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		}
 	};
 
+	function classNames(...classes) {
+		return classes.filter(Boolean).join(" ");
+	}
+
 	return (
 		<>
 			<div className="h-full w-full bg-[#353535]">
@@ -219,83 +223,131 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 									</Panel>
 									{/* {showConsole && ( */}
 									<>
-										<PanelResizeHandle className="w-full h-2 cursor-col-resize hover:bg-[#00FFF6]">
-											<div className="h-full flex justify-center items-center">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 14 2"
-													width="14"
-													height="2"
-													fill="currentColor"
-													className="transition text-gray-3 dark:text-dark-gray-3 group-hover:text-white dark:group-hover:text-white">
-													<circle
-														r="1"
-														transform="matrix(-1 0 0 1 1 1)"></circle>
-													<circle
-														r="1"
-														transform="matrix(-1 0 0 1 7 1)"></circle>
-													<circle
-														r="1"
-														transform="matrix(-1 0 0 1 13 1)"></circle>
-												</svg>
-											</div>
-										</PanelResizeHandle>
+										{showConsole && (
+											<PanelResizeHandle className="w-full h-2 cursor-col-resize hover:bg-[#00FFF6]">
+												<div className="h-full flex justify-center items-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														viewBox="0 0 14 2"
+														width="14"
+														height="2"
+														fill="currentColor"
+														className="transition text-gray-3 dark:text-dark-gray-3 group-hover:text-white dark:group-hover:text-white">
+														<circle
+															r="1"
+															transform="matrix(-1 0 0 1 1 1)"></circle>
+														<circle
+															r="1"
+															transform="matrix(-1 0 0 1 7 1)"></circle>
+														<circle
+															r="1"
+															transform="matrix(-1 0 0 1 13 1)"></circle>
+													</svg>
+												</div>
+											</PanelResizeHandle>
+										)}
 
 										<Panel
 											ref={panelRef}
 											collapsible={true}
 											// onCollapse={
-											// 	() => {
-
-											// 		setShowConsole(false)
-											// 	}
+											// 	() => setShowConsole(false)
 											// }
-
 											minSize={20}
 											className=" bg-[#1e1e1e] text-cyan-50 flex flex-col gap-4 h-full">
-											<div className=" bg-[#1e1e1e] text-cyan-50 p-2 flex flex-col gap-4 h-full">
-												<div className="flex w-full gap-4">
-													<div className="flex flex-col flex-1">
-														<label htmlFor="input">
-															User input
-														</label>
-														<textarea
-															name="args"
-															placeholder="User input"
-															className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
-															id="args"></textarea>
-													</div>
-													<div className="flex flex-col flex-1">
-														<label htmlFor="input">
-															CLI Arguments
-														</label>
-														<textarea
-															name="args"
-															placeholder="CLI Arguments"
-															className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
-															id="args"></textarea>
-													</div>
-												</div>
-												<h3 className="border-b-[1px] border-neutral-700">
-													Output
-												</h3>
-												<div
-													style={{
-														whiteSpace: "pre-wrap",
-													}}
-													className="text-green-600 h-1/2">
-													{output.length > 0
-														? output
-														: ""}
-												</div>
-												<h3 className="border-b-[1px] border-neutral-700">
-													Errors
-												</h3>
-												<div className="text-red-500">
-													{consoleError.length > 0
-														? consoleError
-														: ""}
-												</div>
+											<div className=" bg-[#1e1e1e] text-cyan-50  flex flex-col gap-4 h-full">
+												<Tab.Group>
+													<Tab.List>
+														<div className="flex gap-4 p-2 w-full border-b-[1px] border-neutral-700 py-2">
+															<div>
+																<Tab
+																	className={({
+																		selected,
+																	}) =>
+																		classNames(
+																			"w-full",
+																			"ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2",
+																			selected
+																				? "border-b border-blue-500 shadow"
+																				: "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+																		)
+																	}>
+																	Testcase
+																</Tab>
+															</div>
+															<div>
+																<Tab className={({
+																		selected,
+																	}) =>
+																		classNames(
+																			"w-full",
+																			"ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2",
+																			selected
+																				? "border-b border-blue-500 shadow"
+																				: "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+																		)
+																	}>
+																	Result
+																</Tab>
+															</div>
+														</div>
+													</Tab.List>
+													<Tab.Panels>
+														<Tab.Panel>
+															<div className="flex w-full gap-4 p-2">
+																<div className="flex flex-col flex-1">
+																	<label htmlFor="input">
+																		User
+																		input
+																	</label>
+																	<textarea
+																		name="args"
+																		placeholder="User input"
+																		className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
+																		id="args"></textarea>
+																</div>
+																<div className="flex flex-col flex-1">
+																	<label htmlFor="input">
+																		CLI
+																		Arguments
+																	</label>
+																	<textarea
+																		name="args"
+																		placeholder="CLI Arguments"
+																		className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
+																		id="args"></textarea>
+																</div>
+															</div>
+														</Tab.Panel>
+														<Tab.Panel>
+															<div className="p-2">
+																<h3 className="border-b-[1px] border-neutral-700">
+																	Output
+																</h3>
+																<div
+																	style={{
+																		whiteSpace:
+																			"pre-wrap",
+																	}}
+																	className="text-green-600 h-1/2">
+																	{output.length >
+																	0
+																		? output
+																		: ""}
+																</div>
+																<h3 className="border-b-[1px] border-neutral-700">
+																	Errors
+																</h3>
+																<div className="text-red-500">
+																	{consoleError.length >
+																	0
+																		? consoleError
+																		: ""}
+																</div>
+															</div>
+														</Tab.Panel>
+													</Tab.Panels>
+												</Tab.Group>
 											</div>
 										</Panel>
 									</>
