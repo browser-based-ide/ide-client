@@ -10,7 +10,10 @@ export default function ProfileDropdown() {
 		<Menu as="div" className="relative inline-block text-left">
 			<div>
 				<Menu.Button className="w-10 h-10 inline-flex justify-center gap-x-1.5 rounded-full text-sm font-semibold shadow-sm hover:bg-gray-50">
-					<img src="https://source.boringavatars.com/beam/120/Maria%20Mitchell?colors=264653,2a9d8f,e9c46a,f4a261,e76f51" alt="Avatar" />
+					<img
+						src="https://source.boringavatars.com/beam/120/Maria%20Mitchell?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+						alt="Avatar"
+					/>
 				</Menu.Button>
 			</div>
 

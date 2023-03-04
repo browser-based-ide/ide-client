@@ -31,21 +31,17 @@ const Home = () => {
 		<>
 			<Navbar />
 			<div className="flex w-full h-[calc(100vh-3.5rem)]">
-	
-					{/* <div className="w-full"> */}
-						<CodeEditor
-							socketRef={socketRef}
-							sessionId={sessionId}
-							editorRef={editorRef}
-						/>
-					{/* </div> */}
-	
+				{/* <div className="w-full"> */}
+				<CodeEditor
+					socketRef={socketRef}
+					sessionId={sessionId}
+					editorRef={editorRef}
+				/>
+				{/* </div> */}
 			</div>
 			{/* Header */}
 		</>
 	);
 };
-
-
 
 export default Home;
