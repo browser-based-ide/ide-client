@@ -225,8 +225,12 @@ const CodeEditor: React.FC = () => {
 										)}
 									</select>
 								</div>
-								<PanelGroup direction="vertical">
-									<Panel defaultSize={50}>
+								<PanelGroup
+									style={{ overflow: "visible" }}
+									direction="vertical">
+									<Panel
+										style={{ overflow: "visible" }}
+										defaultSize={50}>
 										<div className={"h-full"}>
 											<Editor
 												theme={"vs-dark"}
