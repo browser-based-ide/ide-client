@@ -1,24 +1,16 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-
-import React, { useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../store";
 import useCodeEditorState from "../../store/code-runner";
+import useDrawCursor from "../shared/hooks/use-drawCursor";
+import useSocket from "../shared/hooks/use-socket.hook";
 import { SocketActions } from "../shared/utils/socket.util";
 
 // loader.config({ monaco });
 
-interface ICodeEditor {
-	socketRef: React.MutableRefObject<Socket | null>;
-	sessionId: string;
-	editorRef: React.MutableRefObject<any>;
-}
-
-const CodeEditor: React.FC<ICodeEditor> = ({
-	socketRef,
-	sessionId,
-	editorRef,
-}) => {
+const CodeEditor: React.FC = () => {
 	const options: monaco.editor.IStandaloneEditorConstructionOptions = {
 		minimap: {
 			enabled: false,
@@ -36,8 +28,11 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		wordSeparators: "~!@#$%^&*()-=+[{]}|;:'\",.<>/?",
 		wordWrapBreakAfterCharacters: "\t})]?|&,;",
 		wordWrapBreakBeforeCharacters: "{([+",
+		cursorBlinking: "solid",
 	};
 
+	const authUserName = useAuthStore((state) => state.userName);
+	// TODO remove dependency on zustand store
 	const [language, output, consoleError] = useCodeEditorState((state) => [
 		state.language,
 		state.output,
@@ -45,7 +40,42 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 	]);
 
 	const [code, setCode] = useState("");
+	const { sessionId } = useParams();
+	const editorRef = useRef(null);
+	// const [decorator, setDecorator] = useState([]);
+	const [cursorDecorator, setCursorDecorator] = useState<{
+		[key: string]: { decorator: string[] };
+	}>(null);
+	const [cursors, setCursors] = useState<{
+		[key: string]: {
+			userName: string;
+			cursorPosition: { lineNumber: number; column: number };
+		};
+	}>(null);
 
+	// TODO remove dependency from cursorPosition
+	const [cursorPosition, setcursorPosition] = useState<{
+		lineNumber: number;
+		column: number;
+	}>(null);
+
+	useDrawCursor(
+		editorRef,
+		cursorPosition,
+		cursors,
+		setCursorDecorator,
+		cursorDecorator
+	);
+
+	const { currentUserJoined, socketRef } = useSocket(
+		sessionId,
+		authUserName,
+		editorRef,
+		setCursors,
+		setCode
+	);
+
+	// set code on language change
 	useEffect(() => {
 		if (language === "Javascript") {
 			setCode(`console.log('Hello World')`);
@@ -63,46 +93,39 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		}
 	}, [language]);
 
-	const handleEditorChange = (
-		value: string | undefined,
-		event: monaco.editor.IModelContentChangedEvent
-	) => {
+	const handleEditorChange = (value: string | undefined, event: any) => {
 		if (value) {
-			if (!event.isFlush) {
+			if (!event.changes[0].forceMoveMarkers) {
 				socketRef.current.emit(SocketActions.CODE_CHANGED, {
 					sessionId,
 					code: value,
+					userName: authUserName,
 				});
 			}
 		}
 	};
-	// get position of cursor
 
 	const handleEditorDidMount = (editor, monaco) => {
 		editorRef.current = editor;
-
-		editor.onDidChangeCursorPosition((event) => {
-			const position = editor.getPosition();
-			// console.log(position);
+		editor.focus();
+		setcursorPosition(editor.getPosition());
+		socketRef.current.emit(SocketActions.CURSOR_POSITION_CHANGED, {
+			sessionId,
+			cursorPosition: editor.getPosition(),
+			userName: authUserName,
 		});
-	};
 
-	useEffect(() => {}, []);
-
-	useEffect(() => {
-		socketRef.current?.on(SocketActions.CODE_CHANGED, ({ code }) => {
-			if (code !== null && code !== undefined) {
-				if (editorRef.current) {
-					editorRef.current.setValue(code);
-				} else {
-					setCode(code);
-				}
+		editor.onDidChangeCursorPosition((e) => {
+			if (e.source === "mouse" || e.source === "keyboard") {
+				setcursorPosition(e.position);
+				socketRef.current.emit(SocketActions.CURSOR_POSITION_CHANGED, {
+					sessionId,
+					cursorPosition: e.position,
+					userName: authUserName,
+				});
 			}
 		});
-		return () => {
-			socketRef.current?.off(SocketActions.CODE_CHANGED);
-		};
-	}, [socketRef.current, editorRef.current]);
+	};
 
 	return (
 		<>
