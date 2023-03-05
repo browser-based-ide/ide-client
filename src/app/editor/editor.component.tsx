@@ -16,16 +16,13 @@ const Home = () => {
 		"Ruby",
 	];
 
-
-
 	return (
 		<>
 			<Navbar />
 			<div className="flex min-h-screen fixed w-full">
 				<div className="w-full">
 					<div className="flex justify-between h-full items-center ">
-						<CodeEditor
-						/>
+						<CodeEditor />
 					</div>
 				</div>
 			</div>

@@ -9,7 +9,6 @@ interface Client {
 	userName: string;
 }
 
-
 interface JoinedPayload {
 	clients: Client[];
 	userName: string;
@@ -88,10 +87,10 @@ const useSocket = (
 
 				// sync cursors
 				setCursors(cursorPositionsForSessionId);
-				console.log("cursorPositionsForSessionId", cursorPositionsForSessionId);
-
-				
-				
+				console.log(
+					"cursorPositionsForSessionId",
+					cursorPositionsForSessionId
+				);
 
 				const currentCode = editorRef.current?.getValue();
 				socketRef.current.emit(SocketActions.SYNC_CODE, {
