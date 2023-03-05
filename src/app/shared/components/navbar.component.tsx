@@ -96,7 +96,13 @@ const Navbar = () => {
 									</Dialog.Title>
 									<div className="mt-2">
 										<p className="text-sm text-gray-500">
-											Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur similique ea commodi ipsa veritatis dolorum. Ea molestias blanditiis dolorem nostrum doloribus atque, maiores voluptatem inventore aperiam. Ipsa ea inventore iusto?
+											Lorem ipsum dolor sit amet
+											consectetur adipisicing elit.
+											Consequuntur similique ea commodi
+											ipsa veritatis dolorum. Ea molestias
+											blanditiis dolorem nostrum doloribus
+											atque, maiores voluptatem inventore
+											aperiam. Ipsa ea inventore iusto?
 										</p>
 									</div>
 
