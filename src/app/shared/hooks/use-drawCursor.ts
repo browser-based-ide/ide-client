@@ -12,7 +12,8 @@ const cursorColors = [
 	"bg-gray-700",
 ];
 
-const cursorColor = cursorColors[Math.floor(Math.random() * cursorColors.length)];
+const cursorColor =
+	cursorColors[Math.floor(Math.random() * cursorColors.length)];
 
 const useDrawCursor = (
 	editorRef: React.MutableRefObject<monaco.editor.IStandaloneCodeEditor | null>,
