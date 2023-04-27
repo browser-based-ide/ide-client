@@ -27,7 +27,6 @@ const CodeEditor: React.FC = () => {
 		automaticLayout: true,
 		colorDecorators: true,
 		dragAndDrop: true,
-		mouseWheelZoom: true,
 		overviewRulerLanes: 2,
 		rulers: [],
 		// smoothScrolling: false,

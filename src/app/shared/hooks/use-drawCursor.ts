@@ -1,6 +1,19 @@
 import * as monaco from "monaco-editor";
 import { useEffect } from "react";
 
+const cursorColors = [
+	"bg-red-700",
+	"bg-blue-700",
+	"bg-green-700",
+	"bg-yellow-700",
+	"bg-purple-700",
+	"bg-pink-700",
+	"bg-indigo-700",
+	"bg-gray-700",
+];
+
+const cursorColor = cursorColors[Math.floor(Math.random() * cursorColors.length)];
+
 const useDrawCursor = (
 	editorRef: React.MutableRefObject<monaco.editor.IStandaloneCodeEditor | null>,
 	cursorPosition,
@@ -31,11 +44,11 @@ const useDrawCursor = (
 				getDomNode: () => {
 					const node = document.createElement("div");
 					node.id = userName;
-					node.className = "text-white text-sm  h-6";
-					node.innerHTML = `<div class="bg-red-900 px-2 w-full h-6 ">
+					node.className = "text-white text-sm h-6";
+					node.innerHTML = `<div class="${cursorColor} px-2 w-full h-6 rounded-md ">
 					${userName}
   </div>
-  <div class="bg-red-900 w-1 h-6">
+  <div class="${cursorColor} w-[2px] h-6 animate-blink">
   </div>`;
 					return node;
 				},

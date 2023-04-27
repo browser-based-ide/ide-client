@@ -6,6 +6,23 @@
 	display: none !important;
 }
 
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.animate-blink {
+  animation: blink-animation 1.5s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1.5s steps(5, start) infinite;
+}
+
 /* @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap" ); */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
