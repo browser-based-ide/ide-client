@@ -17,6 +17,8 @@ import useSocket from "../shared/hooks/use-socket.hook";
 import { useParams } from "react-router-dom";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import { useAuthStore } from "../../store";
+import Navbar from "../shared/components/navbar.component";
+import CodeEditorConsole from "./code-editor-console.component";
 
 // loader.config({ monaco });
 
@@ -232,238 +234,356 @@ const CodeEditor: React.FC = () => {
 
 	return (
 		<>
-			<div className="h-full w-full bg-[#353535]">
-				<div className="flex h-full">
-					<PanelGroup direction="horizontal">
-						<Panel className=" bg-[#1e1e1e]" defaultSize={50}>
-							<div className="flex-1 bg-[#1e1e1e] text-neutral-100"></div>
-						</Panel>
-						<PanelResizeHandle className="w-2 cursor-col-resize hover:bg-[#00FFF6]">
-							<div className="h-full flex justify-center items-center">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 2 14"
-									width="2"
-									height="14"
-									fill="currentColor"
-									className="text-gray-3 dark:text-dark-gray-3 transition -translate-y-6 group-hover:text-white dark:group-hover:text-white">
-									<circle
-										r="1"
-										transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 1)"></circle>
-									<circle
-										r="1"
-										transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 7)"></circle>
-									<circle
-										r="1"
-										transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 13)"></circle>
-								</svg>
-							</div>
-						</PanelResizeHandle>
-						{/* <div className="w-2 cursor-col-resize hover:bg-blue-600"></div> */}
-						<Panel className="flex flex-col flex-1 min-h-screen max-h-[calc(100vh-40rem)]">
-							<div className="flex flex-col h-[calc(100vh-3.5rem)]">
-								<div className="py-2">
-									<select
-										onChange={onLanguageChangeHandler}
-										className="bg-gray-50 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-[#1e1e1e] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-										{languagesOptions.map(
-											(option, index) => {
-												return (
-													<option key={index}>
-														{option}
-													</option>
-												);
-											}
-										)}
-									</select>
-								</div>
-								<PanelGroup direction="vertical">
-									<Panel defaultSize={50}>
-										<div className={"h-full"}>
-											<Editor
-												theme={"vs-dark"}
-												options={options}
-												onChange={handleEditorChange}
-												onMount={handleEditorDidMount}
-												language={language.toLocaleLowerCase()}
-												value={code}
-												className=""
-											/>
+			<Navbar />
+
+			<div className="flex min-h-screen fixed w-full">
+				<div className="w-full">
+					<div className="flex justify-between h-full items-center ">
+						<div className="h-full w-full bg-[#353535]">
+							<div className="flex h-full">
+								<PanelGroup direction="horizontal">
+									<Panel
+										className=" bg-[#1e1e1e]"
+										defaultSize={45}>
+										{/* <div className="flex-1 bg-[#1e1e1e] text-neutral-100 py-8 px-4">
+											<h1 className="text-3xl font-bold">
+												Lorem ipsum dolor sit amet
+												consectetur adipisicing elit.
+											</h1>
+											<div className="mt-4 p-1 bg-[#353535]">
+												Problem Statement
+											</div>
+											<div className="mt-2">
+												You are tasked with building a
+												simple calculator tool that can
+												perform basic arithmetic
+												operations. The tool should
+												allow users to input two numbers
+												and choose an operation
+												(addition, subtraction,
+												multiplication, or division),
+												and then display the result of
+												the operation. Additionally, the
+												tool should be able to handle
+												input validation to prevent
+												errors from occurring.
+											</div>
+											<div className="mt-4 p-1 bg-[#353535]">
+												Reference
+											</div>
+											<div className="mt-2">
+												Here's a general idea of how to
+												approach the problem statement:
+												<li>
+													Display a welcome message
+													and instructions for the
+													user.
+												</li>
+												<li>
+													Prompt the user to input two
+													numbers and validate the
+													input to ensure they are
+													valid numbers
+												</li>
+												<li>
+													{" "}
+													Prompt the user to choose an
+													arithmetic operation to
+													perform (addition,
+													subtraction, multiplication,
+													or division).
+												</li>
+												<li>
+													Based on the user's input,
+													perform the corresponding
+													arithmetic operation on the
+													two numbers.
+												</li>
+												<li>
+													Display the result of the
+													operation to the user.
+												</li>
+												<li>
+													Ask the user if they would
+													like to perform another
+													calculation or exit the
+													program.
+												</li>
+												<li>
+													If the user chooses to
+													perform another calculation,
+													return to step 2.
+												</li>
+												<li>
+													If the user chooses to exit
+													the program, display a
+													farewell message and
+													terminate the program.
+												</li>
+											</div>
+											<div className="mt-2">
+												Here are some additional
+												considerations to keep in mind
+												while implementing the
+												calculator tool:
+												<li>
+													Handle division by zero
+													errors.
+												</li>
+												<li>
+													Display error messages for
+													invalid input or operations.
+													Handle input validation for
+													user choice on performing
+													another calculation or
+													exiting the program.
+												</li>
+												<li>
+													Keep the code clean and
+													modular by breaking down the
+													functionality into reusable
+													functions.
+												</li>
+											</div>
+										</div> */}
+										<div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
+											<h1 className="text-3xl font-bold">
+												Calculator with Python
+											</h1>
+											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+												Problem Description
+											</div>
+											<div className="mt-2">
+												{/* Problem description text */}
+												<p>
+													You are tasked with building
+													a simple calculator tool
+													that can perform basic
+													arithmetic operations. The
+													tool should allow users to
+													input two numbers and choose
+													an operation (addition,
+													subtraction, multiplication,
+													or division), and then
+													display the result of the
+													operation. Additionally, the
+													tool should be able to
+													handle input validation to
+													prevent errors from
+													occurring.
+												</p>
+											</div>
+											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+												Function Signature
+											</div>
+											<div className="mt-2">
+												{/* Function signature text */}
+												<p>
+													Implement the following
+													function:
+												</p>
+												<pre className=" bg-[#353535] rounded p-2 text-sm">
+													<code>
+														function calculate(num1:
+														number, num2: number,
+														operator: string):
+														{/* number {} */}
+														<br />
+														{
+															" // Function logic goes here"
+														}
+													</code>
+												</pre>
+												<p>
+													The function should take in
+													two numbers (num1 and num2)
+													and an operator as input,
+													and it should return a
+													number representing the
+													result of the arithmetic
+													operation.
+												</p>
+											</div>
+											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+												Example
+											</div>
+											<div className="mt-2">
+												{/* Example text */}
+												<p>
+													<strong>Input:</strong>{" "}
+													calculate(5, 3, '+')
+												</p>
+												<p>
+													<strong>Output:</strong> 8
+												</p>
+											</div>
+											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+												Constraints
+											</div>
+											<div className="mt-2">
+												{/* Constraints list */}
+												<ul className="list-disc pl-6">
+													<li>
+														The input numbers will
+														be integers within the
+														range [1, 1000].
+													</li>
+													<li>
+														The operator will always
+														be a valid arithmetic
+														operator ('+', '-', '*',
+														'/').
+													</li>
+												</ul>
+											</div>
 										</div>
 									</Panel>
-									{/* {showConsole && ( */}
-									<>
-										{showConsole && (
-											<PanelResizeHandle className="w-full h-2 cursor-col-resize hover:bg-[#00FFF6]">
-												<div className="h-full flex justify-center items-center">
+									<PanelResizeHandle className="w-2 cursor-col-resize hover:bg-[#00FFF6]">
+										<div className="h-full flex justify-center items-center">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 2 14"
+												width="2"
+												height="14"
+												fill="currentColor"
+												className="text-gray-3 dark:text-dark-gray-3 transition -translate-y-6 group-hover:text-white dark:group-hover:text-white">
+												<circle
+													r="1"
+													transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 1)"></circle>
+												<circle
+													r="1"
+													transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 7)"></circle>
+												<circle
+													r="1"
+													transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 1 13)"></circle>
+											</svg>
+										</div>
+									</PanelResizeHandle>
+
+									<Panel className="flex flex-col flex-1 min-h-screen max-h-[calc(100vh-40rem)]">
+										<div className="flex flex-col h-[calc(100vh-3.5rem)]">
+											<div className="py-2">
+												<select
+													onChange={
+														onLanguageChangeHandler
+													}
+													className="bg-gray-50 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-[#1e1e1e] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+													{languagesOptions.map(
+														(option, index) => {
+															return (
+																<option
+																	key={index}>
+																	{option}
+																</option>
+															);
+														}
+													)}
+												</select>
+											</div>
+											<PanelGroup direction="vertical">
+												<Panel defaultSize={70}>
+													<div className={"h-full"}>
+														<Editor
+															theme={"vs-dark"}
+															options={options}
+															onChange={
+																handleEditorChange
+															}
+															onMount={
+																handleEditorDidMount
+															}
+															language={language.toLocaleLowerCase()}
+															value={code}
+															className=""
+														/>
+													</div>
+												</Panel>
+												{/* {showConsole && ( */}
+												<>
+													{showConsole && (
+														<PanelResizeHandle className="w-full h-2 cursor-col-resize hover:bg-[#00FFF6]">
+															<div className="h-full flex justify-center items-center">
+																<svg
+																	xmlns="http://www.w3.org/2000/svg"
+																	viewBox="0 0 14 2"
+																	width="14"
+																	height="2"
+																	fill="currentColor"
+																	className="transition text-gray-3 dark:text-dark-gray-3 group-hover:text-white dark:group-hover:text-white">
+																	<circle
+																		r="1"
+																		transform="matrix(-1 0 0 1 1 1)"></circle>
+																	<circle
+																		r="1"
+																		transform="matrix(-1 0 0 1 7 1)"></circle>
+																	<circle
+																		r="1"
+																		transform="matrix(-1 0 0 1 13 1)"></circle>
+																</svg>
+															</div>
+														</PanelResizeHandle>
+													)}
+
+													<Panel
+														ref={panelRef}
+														collapsible={true}
+														// onCollapse={
+														// 	() => setShowConsole(false)
+														// }
+														minSize={20}
+														className=" bg-[#1e1e1e] text-cyan-50 flex flex-col gap-4 h-full">
+														<CodeEditorConsole
+															output={MYOutput}
+															consoleError={
+																consoleError
+															}
+														/>
+													</Panel>
+												</>
+												{/* )} */}
+											</PanelGroup>
+											<div className="h-16 bg-[#1e1e1e] min-w-full border-t-[1px] border-neutral-800 p-2 px-4 pr-6 flex items-center justify-between ">
+												<button
+													onClick={handlePanelOpen}
+													className="bg-[#353535] px-4 py-2 flex items-center gap-1 text-neutral-50 rounded-md">
+													<div>console</div>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
-														viewBox="0 0 14 2"
-														width="14"
-														height="2"
+														viewBox="0 0 20 20"
 														fill="currentColor"
-														className="transition text-gray-3 dark:text-dark-gray-3 group-hover:text-white dark:group-hover:text-white">
-														<circle
-															r="1"
-															transform="matrix(-1 0 0 1 1 1)"></circle>
-														<circle
-															r="1"
-															transform="matrix(-1 0 0 1 7 1)"></circle>
-														<circle
-															r="1"
-															transform="matrix(-1 0 0 1 13 1)"></circle>
+														className={`w-5 h-5 transition-transform ${
+															showConsole
+																? "rotate-180"
+																: ""
+														}`}>
+														<path
+															fillRule="evenodd"
+															d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+															clipRule="evenodd"
+														/>
 													</svg>
+												</button>
+												<div className="flex items-center gap-3">
+													<button
+														className="bg-[#353535] px-6 py-2 text-neutral-50 rounded-md"
+														onClick={handleCodeRun}>
+														Run
+													</button>
+													<button
+														className="bg-[#7DCE13] px-6 py-2 text-neutral-800 rounded-md font-semibold"
+														onClick={
+															handleCodeSubmit
+														}>
+														Submit
+													</button>
 												</div>
-											</PanelResizeHandle>
-										)}
-
-										<Panel
-											ref={panelRef}
-											collapsible={true}
-											// onCollapse={
-											// 	() => setShowConsole(false)
-											// }
-											minSize={20}
-											className=" bg-[#1e1e1e] text-cyan-50 flex flex-col gap-4 h-full">
-											<div className=" bg-[#1e1e1e] text-cyan-50  flex flex-col gap-4 h-full">
-												<Tab.Group>
-													<Tab.List>
-														<div className="flex gap-4 p-2 w-full border-b-[1px] border-neutral-700 py-2">
-															<div>
-																<Tab
-																	className={({
-																		selected,
-																	}) =>
-																		classNames(
-																			"w-full",
-																			"ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2",
-																			selected
-																				? "border-b border-blue-500 shadow"
-																				: "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-																		)
-																	}>
-																	Testcase
-																</Tab>
-															</div>
-															<div>
-																<Tab
-																	className={({
-																		selected,
-																	}) =>
-																		classNames(
-																			"w-full",
-																			"ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2",
-																			selected
-																				? "border-b border-blue-500 shadow"
-																				: "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-																		)
-																	}>
-																	Result
-																</Tab>
-															</div>
-														</div>
-													</Tab.List>
-													<Tab.Panels>
-														<Tab.Panel>
-															<div className="flex w-full gap-4 p-2">
-																<div className="flex flex-col flex-1">
-																	<label htmlFor="input">
-																		User
-																		input
-																	</label>
-																	<textarea
-																		name="args"
-																		placeholder="User input"
-																		className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
-																		id="args"></textarea>
-																</div>
-																<div className="flex flex-col flex-1">
-																	<label htmlFor="input">
-																		CLI
-																		Arguments
-																	</label>
-																	<textarea
-																		name="args"
-																		placeholder="CLI Arguments"
-																		className=" text-gray-100 bg-gray-200 w-full h-36 xl:h-44 dark:bg-neutral-800 focus:outline-none rounded-sm p-3 md:p-4 my-3"
-																		id="args"></textarea>
-																</div>
-															</div>
-														</Tab.Panel>
-														<Tab.Panel>
-															<div className="p-2">
-																<h3 className="border-b-[1px] border-neutral-700">
-																	Output
-																	<p>
-																		{
-																			MYOutput
-																		}
-																	</p>
-																</h3>
-																<div
-																	style={{
-																		whiteSpace:
-																			"pre-wrap",
-																	}}
-																	className="text-green-600 h-1/2">
-																	{output.length >
-																	0
-																		? output
-																		: ""}
-																</div>
-																<h3 className="border-b-[1px] border-neutral-700">
-																	Errors
-																</h3>
-																<div className="text-red-500">
-																	{consoleError.length >
-																	0
-																		? consoleError
-																		: ""}
-																</div>
-															</div>
-														</Tab.Panel>
-													</Tab.Panels>
-												</Tab.Group>
 											</div>
-										</Panel>
-									</>
-									{/* )} */}
+										</div>
+									</Panel>
 								</PanelGroup>
-								<div className="h-16 bg-[#1e1e1e] min-w-full border-t-[1px] border-neutral-800 p-2 px-4 flex items-center justify-between ">
-									<button
-										onClick={handlePanelOpen}
-										className="bg-[#353535] px-4 py-2 flex items-center gap-1 text-neutral-50 rounded-md">
-										<div>console</div>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-											className={`w-5 h-5 transition-transform ${
-												showConsole ? "rotate-180" : ""
-											}`}>
-											<path
-												fillRule="evenodd"
-												d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
-												clipRule="evenodd"
-											/>
-										</svg>
-									</button>
-									<div className="flex items-center gap-3">
-										<button
-											className="bg-[#353535] px-6 py-2 text-neutral-50 rounded-md"
-											onClick={handleCodeRun}>
-											Run
-										</button>
-										<button
-											className="bg-[#7DCE13] px-6 py-2 text-neutral-800 rounded-md font-semibold"
-											onClick={handleCodeSubmit}>
-											Submit
-										</button>
-									</div>
-								</div>
 							</div>
-						</Panel>
-					</PanelGroup>
+						</div>
+					</div>
 				</div>
 			</div>
 		</>

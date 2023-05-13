@@ -1,1 +1,1 @@
-export { default as Editor } from "./editor.component";
+export { default as Editor } from "./code-editor.component";

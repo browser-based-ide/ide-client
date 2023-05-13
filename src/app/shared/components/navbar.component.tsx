@@ -43,7 +43,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav className="h-14 py-4 px-4 flex justify-between bg-neutral-900 items-center text-gray-50">
+		<nav className="h-14 py-4 px-6 flex justify-between bg-neutral-900 items-center text-gray-50">
 			<Link to="/">
 				<div className="font-mono text-2xl font-bold cyan-500 text-gray-900">
 					<h1 className="text-[#7DCE13]">IDE</h1>

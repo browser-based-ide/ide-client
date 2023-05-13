@@ -3,6 +3,7 @@ import App from "./app.component";
 import Logout from "./auth/logout.component";
 
 import { Editor } from "./editor";
+import Dashboard from "./dashboard/dashboard.component";
 
 function AppRouter() {
 	return (
@@ -13,6 +14,7 @@ function AppRouter() {
 					{/* <Route index element={<Login />} /> */}
 					{/*  make login permission AKA protected routes */}
 					{/* <Route element={<PrivateRoute />}> */}
+					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/editor/:sessionId" element={<Editor />} />
 					<Route path="/logout" element={<Logout />} />
 					{/* </Route> */}
