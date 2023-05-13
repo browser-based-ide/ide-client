@@ -1,22 +1,21 @@
-import { Transition, Tab } from "@headlessui/react";
+import { Tab } from "@headlessui/react";
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Socket } from "socket.io-client";
 import useCodeEditorState, { languagesOptions } from "../../store/code-runner";
 import { SocketActions } from "../shared/utils/socket.util";
 
 import {
+	ImperativePanelHandle,
 	Panel,
 	PanelGroup,
 	PanelResizeHandle,
-	ImperativePanelHandle,
 } from "react-resizable-panels";
-import useSocket from "../shared/hooks/use-socket.hook";
 import { useParams } from "react-router-dom";
-import useDrawCursor from "../shared/hooks/use-drawCursor";
 import { useAuthStore } from "../../store";
+import useDrawCursor from "../shared/hooks/use-drawCursor";
+import useSocket from "../shared/hooks/use-socket.hook";
 
 // loader.config({ monaco });
 
@@ -130,6 +129,7 @@ const CodeEditor: React.FC = () => {
 					userName: authUserName,
 				});
 			}
+			setCode(value);
 		}
 	};
 
@@ -165,16 +165,8 @@ const CodeEditor: React.FC = () => {
 		setLanguage(event.target.value as languagesOptions);
 	};
 
-	// const onLanguageChangeHandler = (
-	// 	event: React.ChangeEvent<HTMLSelectElement>
-	// ) => {
-	// 	event.preventDefault();
-	// 	console.log("User Selected Value - ", event.target.value);
-	// 	setLanguage(event.target.value as languagesOptions);
-	// };
-
 	const handleCodeSubmit = () => {
-		runCodeSnippet(codeSnippet, language);
+		runCodeSnippet(code, language);
 	};
 
 	const handleCodeRun = () => {
@@ -197,38 +189,6 @@ const CodeEditor: React.FC = () => {
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(" ");
 	}
-
-	const [MYOutput, setMYOutput] = useState("");
-
-	console.log(output);
-	useEffect(() => {
-		if (output) {
-			setMYOutput(output);
-		}
-	}, [output]);
-
-	// const handleCodeSubmit = () => {
-	// 	runCodeSnippet(codeSnippet, language);
-	// };
-
-	// const handleCodeRun = () => {};
-
-	// const handlePanelOpen = () => {
-	// 	const panel = panelRef.current;
-	// 	if (panel) {
-	// 		if (showConsole) {
-	// 			panel.collapse();
-	// 			setShowConsole(false);
-	// 		} else {
-	// 			panel.expand();
-	// 			setShowConsole(true);
-	// 		}
-	// 	}
-	// };
-
-	// function classNames(...classes) {
-	// 	return classes.filter(Boolean).join(" ");
-	// }
 
 	return (
 		<>
@@ -395,9 +355,7 @@ const CodeEditor: React.FC = () => {
 																<h3 className="border-b-[1px] border-neutral-700">
 																	Output
 																	<p>
-																		{
-																			MYOutput
-																		}
+																		{output}
 																	</p>
 																</h3>
 																<div
@@ -415,7 +373,7 @@ const CodeEditor: React.FC = () => {
 																	Errors
 																</h3>
 																<div className="text-red-500">
-																	{consoleError.length >
+																	{consoleError?.length >
 																	0
 																		? consoleError
 																		: ""}
