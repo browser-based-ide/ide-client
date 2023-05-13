@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { networkService } from "../../services";
 import { useAuthStore } from "../../store";
 import { IUser } from "../interfaces";
