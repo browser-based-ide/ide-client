@@ -16,10 +16,8 @@ interface codeEditorState {
 }
 
 interface codeRunnerResponseInterface {
-	data: {
-		output: string; // console log
-		consoleError: string; // compiler errors
-	};
+	output: string; // console log
+	consoleError: string; // compiler errors
 }
 
 const useCodeEditorState = create<codeEditorState>()(
@@ -38,12 +36,15 @@ const useCodeEditorState = create<codeEditorState>()(
 				) => {
 					const data = { codeSnippet, language };
 					const response: codeRunnerResponseInterface =
-						await networkService.post("/code/run", data);
+						await networkService.post(
+							"http://localhost:4200/api/code/run",
+							data
+						);
 					console.log(response);
 
 					set((state) => ({
-						output: response.data.output,
-						consoleError: response.data.consoleError,
+						output: response?.output,
+						consoleError: response?.consoleError,
 					}));
 				},
 				updateCodeSnippet: (codeSnippet: string) => {

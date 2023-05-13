@@ -10,4 +10,5 @@ export const SocketActions = {
 	SYNC_CODE: "sync-code",
 	CONNECT_ERROR: "connect_error",
 	CONNECT_FAILED: "connect_failed",
+	CURSOR_POSITION_CHANGED: "cursor-position-changed",
 };
