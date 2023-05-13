@@ -1,19 +1,23 @@
-import { Tab } from "@headlessui/react";
+import { Transition, Tab } from "@headlessui/react";
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
+
 import React, { useEffect, useRef, useState } from "react";
+import { Socket } from "socket.io-client";
+import useCodeEditorState, { languagesOptions } from "../../store/code-runner";
+import { SocketActions } from "../shared/utils/socket.util";
+
 import {
-	ImperativePanelHandle,
 	Panel,
 	PanelGroup,
 	PanelResizeHandle,
+	ImperativePanelHandle,
 } from "react-resizable-panels";
-import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store";
-import useCodeEditorState, { languagesOptions } from "../../store/code-runner";
-import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
-import { SocketActions } from "../shared/utils/socket.util";
+import { useParams } from "react-router-dom";
+import useDrawCursor from "../shared/hooks/use-drawCursor";
+import { useAuthStore } from "../../store";
+
 // loader.config({ monaco });
 
 const CodeEditor: React.FC = () => {
@@ -33,6 +37,9 @@ const CodeEditor: React.FC = () => {
 		wordSeparators: "~!@#$%^&*()-=+[{]}|;:'\",.<>/?",
 		wordWrapBreakAfterCharacters: "\t})]?|&,;",
 		wordWrapBreakBeforeCharacters: "{([+",
+		padding: {
+			top: 10,
+		},
 		cursorBlinking: "solid",
 	};
 
@@ -55,8 +62,8 @@ const CodeEditor: React.FC = () => {
 	]);
 
 	const [code, setCode] = useState("");
-	const [showConsole, setShowConsole] = useState(true);
-	const panelRef = useRef<ImperativePanelHandle>(null);
+	// const [showConsole, setShowConsole] = useState(true);
+	// const panelRef = useRef<ImperativePanelHandle>(null);
 	const { sessionId } = useParams();
 	const editorRef = useRef(null);
 	// const [decorator, setDecorator] = useState([]);
@@ -69,6 +76,10 @@ const CodeEditor: React.FC = () => {
 			cursorPosition: { lineNumber: number; column: number };
 		};
 	}>(null);
+
+	const [showConsole, setShowConsole] = useState(true);
+
+	const panelRef = useRef<ImperativePanelHandle>(null);
 
 	// TODO remove dependency from cursorPosition
 	const [cursorPosition, setcursorPosition] = useState<{
@@ -154,6 +165,14 @@ const CodeEditor: React.FC = () => {
 		setLanguage(event.target.value as languagesOptions);
 	};
 
+	// const onLanguageChangeHandler = (
+	// 	event: React.ChangeEvent<HTMLSelectElement>
+	// ) => {
+	// 	event.preventDefault();
+	// 	console.log("User Selected Value - ", event.target.value);
+	// 	setLanguage(event.target.value as languagesOptions);
+	// };
+
 	const handleCodeSubmit = () => {
 		runCodeSnippet(codeSnippet, language);
 	};
@@ -187,6 +206,29 @@ const CodeEditor: React.FC = () => {
 			setMYOutput(output);
 		}
 	}, [output]);
+
+	// const handleCodeSubmit = () => {
+	// 	runCodeSnippet(codeSnippet, language);
+	// };
+
+	// const handleCodeRun = () => {};
+
+	// const handlePanelOpen = () => {
+	// 	const panel = panelRef.current;
+	// 	if (panel) {
+	// 		if (showConsole) {
+	// 			panel.collapse();
+	// 			setShowConsole(false);
+	// 		} else {
+	// 			panel.expand();
+	// 			setShowConsole(true);
+	// 		}
+	// 	}
+	// };
+
+	// function classNames(...classes) {
+	// 	return classes.filter(Boolean).join(" ");
+	// }
 
 	return (
 		<>
@@ -235,12 +277,8 @@ const CodeEditor: React.FC = () => {
 										)}
 									</select>
 								</div>
-								<PanelGroup
-									style={{ overflow: "visible" }}
-									direction="vertical">
-									<Panel
-										style={{ overflow: "visible" }}
-										defaultSize={50}>
+								<PanelGroup direction="vertical">
+									<Panel defaultSize={50}>
 										<div className={"h-full"}>
 											<Editor
 												theme={"vs-dark"}
