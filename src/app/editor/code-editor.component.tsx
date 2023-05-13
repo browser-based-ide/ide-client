@@ -158,7 +158,9 @@ const CodeEditor: React.FC = () => {
 		runCodeSnippet(codeSnippet, language);
 	};
 
-	const handleCodeRun = () => {};
+	const handleCodeRun = () => {
+		runCodeSnippet(code, language);
+	};
 
 	const handlePanelOpen = () => {
 		const panel = panelRef.current;
@@ -176,6 +178,15 @@ const CodeEditor: React.FC = () => {
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(" ");
 	}
+
+	const [MYOutput, setMYOutput] = useState("");
+
+	console.log(output);
+	useEffect(() => {
+		if (output) {
+			setMYOutput(output);
+		}
+	}, [output]);
 
 	return (
 		<>
@@ -345,6 +356,11 @@ const CodeEditor: React.FC = () => {
 															<div className="p-2">
 																<h3 className="border-b-[1px] border-neutral-700">
 																	Output
+																	<p>
+																		{
+																			MYOutput
+																		}
+																	</p>
 																</h3>
 																<div
 																	style={{
