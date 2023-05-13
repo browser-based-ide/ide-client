@@ -43,9 +43,6 @@ const CodeEditor: React.FC = () => {
 		cursorBlinking: "solid",
 	};
 
-
-
-
 	const authUserName = useAuthStore((state) => state.userName);
 	// TODO remove dependency on zustand store
 	const [
@@ -349,7 +346,8 @@ const CodeEditor: React.FC = () => {
 																</Tab>
 															</div>
 															<div>
-																<Tab className={({
+																<Tab
+																	className={({
 																		selected,
 																	}) =>
 																		classNames(
