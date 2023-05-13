@@ -13,20 +13,14 @@ import {
 	PanelResizeHandle,
 	ImperativePanelHandle,
 } from "react-resizable-panels";
+import useSocket from "../shared/hooks/use-socket.hook";
+import { useParams } from "react-router-dom";
+import useDrawCursor from "../shared/hooks/use-drawCursor";
+import { useAuthStore } from "../../store";
 
 // loader.config({ monaco });
 
-interface ICodeEditor {
-	socketRef: React.MutableRefObject<Socket | null>;
-	sessionId: string;
-	editorRef: React.MutableRefObject<any>;
-}
-
-const CodeEditor: React.FC<ICodeEditor> = ({
-	socketRef,
-	sessionId,
-	editorRef,
-}) => {
+const CodeEditor: React.FC = () => {
 	const options: monaco.editor.IStandaloneEditorConstructionOptions = {
 		minimap: {
 			enabled: false,
@@ -37,7 +31,6 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		automaticLayout: true,
 		colorDecorators: true,
 		dragAndDrop: true,
-		mouseWheelZoom: true,
 		overviewRulerLanes: 2,
 		rulers: [],
 		// smoothScrolling: false,
@@ -47,8 +40,14 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		padding: {
 			top: 10,
 		},
+		cursorBlinking: "solid",
 	};
 
+
+
+
+	const authUserName = useAuthStore((state) => state.userName);
+	// TODO remove dependency on zustand store
 	const [
 		language,
 		output,
@@ -66,11 +65,48 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 	]);
 
 	const [code, setCode] = useState("");
+	// const [showConsole, setShowConsole] = useState(true);
+	// const panelRef = useRef<ImperativePanelHandle>(null);
+	const { sessionId } = useParams();
+	const editorRef = useRef(null);
+	// const [decorator, setDecorator] = useState([]);
+	const [cursorDecorator, setCursorDecorator] = useState<{
+		[key: string]: { decorator: string[] };
+	}>(null);
+	const [cursors, setCursors] = useState<{
+		[key: string]: {
+			userName: string;
+			cursorPosition: { lineNumber: number; column: number };
+		};
+	}>(null);
 
 	const [showConsole, setShowConsole] = useState(true);
 
 	const panelRef = useRef<ImperativePanelHandle>(null);
 
+	// TODO remove dependency from cursorPosition
+	const [cursorPosition, setcursorPosition] = useState<{
+		lineNumber: number;
+		column: number;
+	}>(null);
+
+	useDrawCursor(
+		editorRef,
+		cursorPosition,
+		cursors,
+		setCursorDecorator,
+		cursorDecorator
+	);
+
+	const { currentUserJoined, socketRef } = useSocket(
+		sessionId,
+		authUserName,
+		editorRef,
+		setCursors,
+		setCode
+	);
+
+	// set code on language change
 	useEffect(() => {
 		if (language === "Javascript") {
 			setCode(`console.log('Hello World')`);
@@ -88,27 +124,37 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		}
 	}, [language]);
 
-	const handleEditorChange = (
-		value: string | undefined,
-		event: monaco.editor.IModelContentChangedEvent
-	) => {
+	const handleEditorChange = (value: string | undefined, event: any) => {
 		if (value) {
-			if (!event.isFlush) {
+			if (!event.changes[0].forceMoveMarkers) {
 				socketRef.current.emit(SocketActions.CODE_CHANGED, {
 					sessionId,
 					code: value,
+					userName: authUserName,
 				});
 			}
 		}
 	};
-	// get position of cursor
 
 	const handleEditorDidMount = (editor, monaco) => {
 		editorRef.current = editor;
+		editor.focus();
+		setcursorPosition(editor.getPosition());
+		socketRef.current.emit(SocketActions.CURSOR_POSITION_CHANGED, {
+			sessionId,
+			cursorPosition: editor.getPosition(),
+			userName: authUserName,
+		});
 
-		editor.onDidChangeCursorPosition((event) => {
-			const position = editor.getPosition();
-			// console.log(position);
+		editor.onDidChangeCursorPosition((e) => {
+			if (e.source === "mouse" || e.source === "keyboard") {
+				setcursorPosition(e.position);
+				socketRef.current.emit(SocketActions.CURSOR_POSITION_CHANGED, {
+					sessionId,
+					cursorPosition: e.position,
+					userName: authUserName,
+				});
+			}
 		});
 	};
 
@@ -122,26 +168,21 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 		setLanguage(event.target.value as languagesOptions);
 	};
 
-	useEffect(() => {
-		socketRef.current?.on(SocketActions.CODE_CHANGED, ({ code }) => {
-			if (code !== null && code !== undefined) {
-				if (editorRef.current) {
-					editorRef.current.setValue(code);
-				} else {
-					setCode(code);
-				}
-			}
-		});
-		return () => {
-			socketRef.current?.off(SocketActions.CODE_CHANGED);
-		};
-	}, [socketRef.current, editorRef.current]);
+	// const onLanguageChangeHandler = (
+	// 	event: React.ChangeEvent<HTMLSelectElement>
+	// ) => {
+	// 	event.preventDefault();
+	// 	console.log("User Selected Value - ", event.target.value);
+	// 	setLanguage(event.target.value as languagesOptions);
+	// };
 
 	const handleCodeSubmit = () => {
 		runCodeSnippet(codeSnippet, language);
 	};
 
-	const handleCodeRun = () => {};
+	const handleCodeRun = () => {
+		runCodeSnippet(code, language);
+	};
 
 	const handlePanelOpen = () => {
 		const panel = panelRef.current;
@@ -159,6 +200,38 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(" ");
 	}
+
+	const [MYOutput, setMYOutput] = useState("");
+
+	console.log(output);
+	useEffect(() => {
+		if (output) {
+			setMYOutput(output);
+		}
+	}, [output]);
+
+	// const handleCodeSubmit = () => {
+	// 	runCodeSnippet(codeSnippet, language);
+	// };
+
+	// const handleCodeRun = () => {};
+
+	// const handlePanelOpen = () => {
+	// 	const panel = panelRef.current;
+	// 	if (panel) {
+	// 		if (showConsole) {
+	// 			panel.collapse();
+	// 			setShowConsole(false);
+	// 		} else {
+	// 			panel.expand();
+	// 			setShowConsole(true);
+	// 		}
+	// 	}
+	// };
+
+	// function classNames(...classes) {
+	// 	return classes.filter(Boolean).join(" ");
+	// }
 
 	return (
 		<>
@@ -323,6 +396,11 @@ const CodeEditor: React.FC<ICodeEditor> = ({
 															<div className="p-2">
 																<h3 className="border-b-[1px] border-neutral-700">
 																	Output
+																	<p>
+																		{
+																			MYOutput
+																		}
+																	</p>
 																</h3>
 																<div
 																	style={{

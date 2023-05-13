@@ -16,28 +16,17 @@ const Home = () => {
 		"Ruby",
 	];
 
-	// socket io
-	const { sessionId } = useParams();
-	const editorRef = useRef(null);
-	const authUserName = useAuthStore((state) => state.userName);
-
-	const { currentUserJoined, socketRef } = useSocket(
-		sessionId,
-		authUserName,
-		editorRef
-	);
-
 	return (
 		<>
 			<Navbar />
-			<div className="flex w-full h-[calc(100vh-3.5rem)]">
-				{/* <div className="w-full"> */}
-				<CodeEditor
-					socketRef={socketRef}
-					sessionId={sessionId}
-					editorRef={editorRef}
-				/>
-				{/* </div> */}
+
+			<div className="flex min-h-screen fixed w-full">
+				<div className="w-full">
+					<div className="flex justify-between h-full items-center ">
+						<CodeEditor/>
+					</div>
+				</div>
+
 			</div>
 			{/* Header */}
 		</>
