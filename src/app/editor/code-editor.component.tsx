@@ -14,7 +14,7 @@ import {
 	ImperativePanelHandle,
 } from "react-resizable-panels";
 import useSocket from "../shared/hooks/use-socket.hook";
-import { useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import { useAuthStore } from "../../store";
 import Navbar from "../shared/components/navbar.component";
@@ -232,6 +232,82 @@ const CodeEditor: React.FC = () => {
 	// 	return classes.filter(Boolean).join(" ");
 	// }
 
+	const location = useLocation();
+
+	
+	const currentProblem = location.pathname.split("/")[2];
+
+	if (!currentProblem) {
+		return <Navigate to="404" />;
+	}
+
+	const problems = {
+		"1": {
+			title: "Two Sum",
+			description:
+				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+			functionSignature:
+				"function twoSum(nums: number[], target: number): number[]",
+			functionDescription:
+				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+			exampleInput:
+				"Input: nums = [2,7,11,15], target = 9\nOutput: [0,1].",
+			exampleOutput:
+				"Output: Because nums[0] + nums[1] == 9, we return [0, 1]",
+			constraints: [
+				"2 <= nums.length <= 10^3",
+				"-10^9 <= nums[i] <= 10^9",
+				"-10^9 <= target <= 10^9",
+				"Only one valid answer exists.",
+				"You may not use the same element twice.",
+			],
+		},
+		"2": {
+			title: "Calculator with Python",
+			description:
+				"You are tasked with building a simple calculator tool that can perform basic arithmetic operations. The tool should allow users to input two numbers and choose an operation (addition, multiplication, or division), and then display the result of the operation. Additionally, the tool should be able to handle input validation to prevent errors from occurring.",
+			functionSignature:
+				"function twoSum(nums: number[], target: number): number[]",
+			functionDescription:
+				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+			exampleInput: "Input: nums = [2,7,11,15], target = 9",
+			exampleOutput:
+				"Output: Because nums[0] + nums[1] == 9, we return [0, 1].",
+			constraints: [
+				"2 <= nums.length <= 10^3",
+				"-10^9 <= nums[i] <= 10^9",
+				"-10^9 <= target <= 10^9",
+				"Only one valid answer exists.",
+				"You may not use the same element twice.",
+			],
+		},
+		"3": {
+			title: "Reverse String",
+			description:
+				"Write a function that takes a string as input and returns the string reversed.",
+			functionSignature: "function reverseString(s: string): string",
+			functionDescription:
+				"Given a string `s`, you need to reverse the string without using any extra space.",
+			exampleInput: 'Input: s = "hello"',
+			exampleOutput: 'Output: "olleh"',
+			constraints: [
+				"1 <= s.length <= 10^5",
+				"s consists of printable ASCII characters.",
+			],
+		},
+		"4": {
+			title: "Palindrome Number",
+			description:
+				"Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.",
+			functionSignature: "function isPalindrome(x: number): boolean",
+			functionDescription:
+				"Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise. The function should handle negative numbers as well.",
+			exampleInput: "Input: x = 121",
+			exampleOutput: "Output: true",
+			constraints: ["-2^31 <= x <= 2^31 - 1"],
+		},
+	};
+
 	return (
 		<>
 			<Navbar />
@@ -245,108 +321,7 @@ const CodeEditor: React.FC = () => {
 									<Panel
 										className=" bg-[#1e1e1e]"
 										defaultSize={45}>
-										{/* <div className="flex-1 bg-[#1e1e1e] text-neutral-100 py-8 px-4">
-											<h1 className="text-3xl font-bold">
-												Lorem ipsum dolor sit amet
-												consectetur adipisicing elit.
-											</h1>
-											<div className="mt-4 p-1 bg-[#353535]">
-												Problem Statement
-											</div>
-											<div className="mt-2">
-												You are tasked with building a
-												simple calculator tool that can
-												perform basic arithmetic
-												operations. The tool should
-												allow users to input two numbers
-												and choose an operation
-												(addition, subtraction,
-												multiplication, or division),
-												and then display the result of
-												the operation. Additionally, the
-												tool should be able to handle
-												input validation to prevent
-												errors from occurring.
-											</div>
-											<div className="mt-4 p-1 bg-[#353535]">
-												Reference
-											</div>
-											<div className="mt-2">
-												Here's a general idea of how to
-												approach the problem statement:
-												<li>
-													Display a welcome message
-													and instructions for the
-													user.
-												</li>
-												<li>
-													Prompt the user to input two
-													numbers and validate the
-													input to ensure they are
-													valid numbers
-												</li>
-												<li>
-													{" "}
-													Prompt the user to choose an
-													arithmetic operation to
-													perform (addition,
-													subtraction, multiplication,
-													or division).
-												</li>
-												<li>
-													Based on the user's input,
-													perform the corresponding
-													arithmetic operation on the
-													two numbers.
-												</li>
-												<li>
-													Display the result of the
-													operation to the user.
-												</li>
-												<li>
-													Ask the user if they would
-													like to perform another
-													calculation or exit the
-													program.
-												</li>
-												<li>
-													If the user chooses to
-													perform another calculation,
-													return to step 2.
-												</li>
-												<li>
-													If the user chooses to exit
-													the program, display a
-													farewell message and
-													terminate the program.
-												</li>
-											</div>
-											<div className="mt-2">
-												Here are some additional
-												considerations to keep in mind
-												while implementing the
-												calculator tool:
-												<li>
-													Handle division by zero
-													errors.
-												</li>
-												<li>
-													Display error messages for
-													invalid input or operations.
-													Handle input validation for
-													user choice on performing
-													another calculation or
-													exiting the program.
-												</li>
-												<li>
-													Keep the code clean and
-													modular by breaking down the
-													functionality into reusable
-													functions.
-												</li>
-											</div>
-										</div> */}
-										<div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
+										{/* <div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
 											<h1 className="text-3xl font-bold">
 												Calculator with Python
 											</h1>
@@ -354,40 +329,24 @@ const CodeEditor: React.FC = () => {
 												Problem Description
 											</div>
 											<div className="mt-2">
-												{/* Problem description text */}
 												<p>
-													You are tasked with building
-													a simple calculator tool
-													that can perform basic
-													arithmetic operations. The
-													tool should allow users to
-													input two numbers and choose
-													an operation (addition,
-													subtraction, multiplication,
-													or division), and then
-													display the result of the
-													operation. Additionally, the
-													tool should be able to
-													handle input validation to
-													prevent errors from
-													occurring.
+													
 												</p>
 											</div>
 											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
 												Function Signature
 											</div>
 											<div className="mt-2">
-												{/* Function signature text */}
 												<p>
 													Implement the following
 													function:
 												</p>
-												<pre className=" bg-[#353535] rounded p-2 text-sm">
+												<pre className=" bg-[#353535] rounded p-2 text-sm mt-2 mb-2">
 													<code>
 														function calculate(num1:
 														number, num2: number,
 														operator: string):
-														{/* number {} */}
+														
 														<br />
 														{
 															" // Function logic goes here"
@@ -408,7 +367,7 @@ const CodeEditor: React.FC = () => {
 												Example
 											</div>
 											<div className="mt-2">
-												{/* Example text */}
+											
 												<p>
 													<strong>Input:</strong>{" "}
 													calculate(5, 3, '+')
@@ -421,7 +380,7 @@ const CodeEditor: React.FC = () => {
 												Constraints
 											</div>
 											<div className="mt-2">
-												{/* Constraints list */}
+											
 												<ul className="list-disc pl-6">
 													<li>
 														The input numbers will
@@ -436,7 +395,108 @@ const CodeEditor: React.FC = () => {
 													</li>
 												</ul>
 											</div>
-										</div>
+										</div> */}
+										{
+											<div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
+												<h1 className="text-3xl font-bold">
+													{
+														problems[currentProblem]
+															.title
+													}
+												</h1>
+												<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+													Problem Description
+												</div>
+												<div className="mt-2">
+													<p>
+														{
+															problems[
+																currentProblem
+															].description
+														}
+													</p>
+												</div>
+												<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+													Function Signature
+												</div>
+												<div className="mt-2">
+													<p>
+														Implement the following
+														function:
+													</p>
+													<pre className=" bg-[#353535] rounded p-2 text-sm mt-2 mb-2">
+														<code>
+															{
+																problems[
+																	currentProblem
+																]
+																	.functionSignature
+															}
+															<br />
+															{
+																" // Function logic goes here"
+															}
+														</code>
+													</pre>
+													<p>
+														{
+															problems[
+																currentProblem
+															]
+																.functionDescription
+														}
+													</p>
+												</div>
+												<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+													Example
+												</div>
+												<div className="mt-2">
+													<p>
+														{
+															problems[
+																currentProblem
+															].exampleInput
+														}
+													</p>
+													<p>
+														{
+															problems[
+																currentProblem
+															].exampleOutput
+														}
+													</p>
+												</div>
+												<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
+													Constraints
+												</div>
+												<div className="mt-2">
+													<ul className="list-disc pl-6">
+														{
+															problems[
+															currentProblem
+															].constraints.map(
+																(
+																	constraint,
+																	index
+																) => (
+																	<li
+																		key={
+																			index
+																		}>
+																		{
+																			constraint
+
+																		}
+																	</li>
+																)
+															)
+
+														}
+
+													</ul>
+												</div>
+											</div>
+										}
 									</Panel>
 									<PanelResizeHandle className="w-2 cursor-col-resize hover:bg-[#00FFF6]">
 										<div className="h-full flex justify-center items-center">

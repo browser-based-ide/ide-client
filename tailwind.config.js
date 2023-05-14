@@ -8,9 +8,9 @@ module.exports = {
 				// 'mono': ['Space Grotesk', 'monospace'],
 			},
 			colors: {
-				"dark": "#1e1e1e",
-				"blue":"#137DCE"
-			}
+				dark: "#1e1e1e",
+				blue: "#137DCE",
+			},
 		},
 	},
 	plugins: [],

@@ -92,4 +92,4 @@ const CodeEditorConsole: React.FC<Props> = ({ output, consoleError }) => {
 	);
 };
 
-export default CodeEditorConsole
+export default CodeEditorConsole;
