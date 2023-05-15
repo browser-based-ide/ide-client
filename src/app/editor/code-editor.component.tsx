@@ -1,23 +1,21 @@
-import { Transition, Tab } from "@headlessui/react";
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Socket } from "socket.io-client";
 import useCodeEditorState, { languagesOptions } from "../../store/code-runner";
 import { SocketActions } from "../shared/utils/socket.util";
 
 import {
+	ImperativePanelHandle,
 	Panel,
 	PanelGroup,
 	PanelResizeHandle,
-	ImperativePanelHandle,
 } from "react-resizable-panels";
-import useSocket from "../shared/hooks/use-socket.hook";
 import { Navigate, useLocation, useParams } from "react-router-dom";
-import useDrawCursor from "../shared/hooks/use-drawCursor";
 import { useAuthStore } from "../../store";
 import Navbar from "../shared/components/navbar.component";
+import useDrawCursor from "../shared/hooks/use-drawCursor";
+import useSocket from "../shared/hooks/use-socket.hook";
 import CodeEditorConsole from "./code-editor-console.component";
 
 // loader.config({ monaco });
@@ -132,6 +130,7 @@ const CodeEditor: React.FC = () => {
 					userName: authUserName,
 				});
 			}
+			setCode(value);
 		}
 	};
 
@@ -167,16 +166,8 @@ const CodeEditor: React.FC = () => {
 		setLanguage(event.target.value as languagesOptions);
 	};
 
-	// const onLanguageChangeHandler = (
-	// 	event: React.ChangeEvent<HTMLSelectElement>
-	// ) => {
-	// 	event.preventDefault();
-	// 	console.log("User Selected Value - ", event.target.value);
-	// 	setLanguage(event.target.value as languagesOptions);
-	// };
-
 	const handleCodeSubmit = () => {
-		runCodeSnippet(codeSnippet, language);
+		runCodeSnippet(code, language);
 	};
 
 	const handleCodeRun = () => {
@@ -234,7 +225,6 @@ const CodeEditor: React.FC = () => {
 
 	const location = useLocation();
 
-	
 	const currentProblem = location.pathname.split("/")[2];
 
 	if (!currentProblem) {
@@ -471,28 +461,18 @@ const CodeEditor: React.FC = () => {
 												</div>
 												<div className="mt-2">
 													<ul className="list-disc pl-6">
-														{
-															problems[
+														{problems[
 															currentProblem
-															].constraints.map(
-																(
-																	constraint,
-																	index
-																) => (
-																	<li
-																		key={
-																			index
-																		}>
-																		{
-																			constraint
-
-																		}
-																	</li>
-																)
+														].constraints.map(
+															(
+																constraint,
+																index
+															) => (
+																<li key={index}>
+																	{constraint}
+																</li>
 															)
-
-														}
-
+														)}
 													</ul>
 												</div>
 											</div>
