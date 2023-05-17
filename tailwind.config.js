@@ -7,6 +7,9 @@ module.exports = {
 				sans: ["Inter", "sans-serif"],
 				// 'mono': ['Space Grotesk', 'monospace'],
 			},
+			colors: {
+				dark: "#1e1e1e",
+			},
 		},
 	},
 	plugins: [],
