@@ -13,6 +13,7 @@ import {
 } from "react-resizable-panels";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useAuthStore } from "../../store";
+import Audio from "../100ms/100ms.component";
 import Navbar from "../shared/components/navbar.component";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
@@ -502,7 +503,7 @@ const CodeEditor: React.FC = () => {
 
 									<Panel className="flex flex-col flex-1 min-h-screen max-h-[calc(100vh-40rem)]">
 										<div className="flex flex-col h-[calc(100vh-3.5rem)]">
-											<div className="py-2">
+											<div className="py-2 flex justify-between items-center">
 												<select
 													onChange={
 														onLanguageChangeHandler
@@ -519,6 +520,10 @@ const CodeEditor: React.FC = () => {
 														}
 													)}
 												</select>
+												<Audio
+													roomId={sessionId}
+													userName={authUserName}
+												/>
 											</div>
 											<PanelGroup direction="vertical">
 												<Panel defaultSize={70}>
