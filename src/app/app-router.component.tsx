@@ -6,6 +6,7 @@ import Auth from "./auth/auth.component";
 import Login from "./auth/login.component";
 import { Editor } from "./editor";
 import PrivateRoute from "./shared/components/private-route.component";
+import Dashboard from "./dashboard/dashboard.component";
 
 function AppRouter() {
 	return (
@@ -20,6 +21,7 @@ function AppRouter() {
 								path="/editor/:sessionId"
 								element={<Editor />}
 							/>
+							<Route path="/dashboard" element={<Dashboard />} />
 							<Route path="/logout" element={<Logout />} />
 						</Route>
 					</Route>
