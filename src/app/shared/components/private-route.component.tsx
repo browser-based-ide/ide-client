@@ -14,7 +14,13 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 	}, [isLoading]);
 
 	if (showLoading) {
-		return <h1>Loading</h1>;
+		return (
+			<div className="bg-dark w-full h-screen text-fuchsia-50 flex items-center justify-center flex-col gap-8">
+				{" "}
+				<div className="w-20 h-20 border-l-2 border-orange-500 rounded-full animate-spin"></div>
+				<h1>LOADING</h1>
+			</div>
+		);
 	}
 
 	if (!isAuthenticated) {

@@ -18,6 +18,7 @@ import Navbar from "../shared/components/navbar.component";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
 import CodeEditorConsole from "./code-editor-console.component";
+import { problems } from "../shared/config";
 
 // loader.config({ monaco });
 
@@ -224,73 +225,6 @@ const CodeEditor: React.FC = () => {
 	if (!currentProblem) {
 		return <Navigate to="404" />;
 	}
-
-	const problems = {
-		"1": {
-			title: "Two Sum",
-			description:
-				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-			functionSignature:
-				"function twoSum(nums: number[], target: number): number[]",
-			functionDescription:
-				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-			exampleInput:
-				"Input: nums = [2,7,11,15], target = 9\nOutput: [0,1].",
-			exampleOutput:
-				"Output: Because nums[0] + nums[1] == 9, we return [0, 1]",
-			constraints: [
-				"2 <= nums.length <= 10^3",
-				"-10^9 <= nums[i] <= 10^9",
-				"-10^9 <= target <= 10^9",
-				"Only one valid answer exists.",
-				"You may not use the same element twice.",
-			],
-		},
-		"2": {
-			title: "Calculator with Python",
-			description:
-				"You are tasked with building a simple calculator tool that can perform basic arithmetic operations. The tool should allow users to input two numbers and choose an operation (addition, multiplication, or division), and then display the result of the operation. Additionally, the tool should be able to handle input validation to prevent errors from occurring.",
-			functionSignature:
-				"function twoSum(nums: number[], target: number): number[]",
-			functionDescription:
-				"Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-			exampleInput: "Input: nums = [2,7,11,15], target = 9",
-			exampleOutput:
-				"Output: Because nums[0] + nums[1] == 9, we return [0, 1].",
-			constraints: [
-				"2 <= nums.length <= 10^3",
-				"-10^9 <= nums[i] <= 10^9",
-				"-10^9 <= target <= 10^9",
-				"Only one valid answer exists.",
-				"You may not use the same element twice.",
-			],
-		},
-		"3": {
-			title: "Reverse String",
-			description:
-				"Write a function that takes a string as input and returns the string reversed.",
-			functionSignature: "function reverseString(s: string): string",
-			functionDescription:
-				"Given a string `s`, you need to reverse the string without using any extra space.",
-			exampleInput: 'Input: s = "hello"',
-			exampleOutput: 'Output: "olleh"',
-			constraints: [
-				"1 <= s.length <= 10^5",
-				"s consists of printable ASCII characters.",
-			],
-		},
-		"4": {
-			title: "Palindrome Number",
-			description:
-				"Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.",
-			functionSignature: "function isPalindrome(x: number): boolean",
-			functionDescription:
-				"Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise. The function should handle negative numbers as well.",
-			exampleInput: "Input: x = 121",
-			exampleOutput: "Output: true",
-			constraints: ["-2^31 <= x <= 2^31 - 1"],
-		},
-	};
 
 	return (
 		<>
