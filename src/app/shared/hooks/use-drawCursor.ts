@@ -46,7 +46,7 @@ const useDrawCursor = (
 					const node = document.createElement("div");
 					node.id = userName;
 					node.className = "text-white text-sm h-6";
-					node.innerHTML = `<div class="${cursorColor} px-2 w-full h-6 rounded-md ">
+					node.innerHTML = `<div class="${cursorColor} px-2 w-full h-6 rounded-md rounded-bl-none flex items-center justify-center ">
 					${userName}
   </div>
   <div class="${cursorColor} w-[2px] h-6 animate-blink">
