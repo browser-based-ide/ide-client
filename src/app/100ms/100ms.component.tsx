@@ -15,7 +15,7 @@ const Audio = ({ roomId, userName }) => {
 					"100ms/create-room",
 					{
 						sessionID: roomId,
-						userID: userName
+						userID: userName,
 					}
 				);
 

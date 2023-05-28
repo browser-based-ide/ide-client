@@ -13,7 +13,6 @@ function Peer({ peer }) {
 		toggleVideo,
 	} = useAVToggle();
 
-
 	const hmsActions = useHMSActions();
 	const navigate = useNavigate();
 	const handleLeave = async () => {
@@ -21,7 +20,6 @@ function Peer({ peer }) {
 		navigate("/dashboard");
 	};
 
-	
 	return (
 		<div className="peer-container">
 			<video

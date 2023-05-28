@@ -84,7 +84,6 @@ const useSocket = (
 				// sync cursors
 				setCursors(cursorPositionsForSessionId);
 
-
 				const currentCode = editorRef.current?.getValue();
 				socketRef.current.emit(SocketActions.SYNC_CODE, {
 					code: currentCode,
@@ -174,7 +173,7 @@ const useSocket = (
 			socketRef.current?.off(SocketActions.CURSOR_POSITION_CHANGED);
 			socketRef.current?.off(SocketActions.DISCONNECTED);
 			socketRef.current?.disconnect();
-		}; 
+		};
 	}, [authUserName, editorRef, sessionId, setCode, setCursors]);
 
 	return { currentUserJoined, socketRef };

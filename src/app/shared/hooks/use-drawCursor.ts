@@ -86,7 +86,6 @@ const useDrawCursor = (
 		};
 
 		if (cursorPosition !== null && cursors !== null) {
-
 			Object.keys(cursors).forEach((key) => {
 				const { userName, cursorPosition } = cursors[key];
 				const decorator =
@@ -96,7 +95,7 @@ const useDrawCursor = (
 				drawCursor(userName, cursorPosition, decorator);
 			});
 		}
-	}, [ cursorPosition, cursors, editorRef, setCursorDecorator]);
+	}, [cursorPosition, cursors, editorRef, setCursorDecorator]);
 };
 
 export default useDrawCursor;
