@@ -194,13 +194,6 @@ const CodeEditor: React.FC = () => {
 
 	const [MYOutput, setMYOutput] = useState("");
 
-	console.log(output);
-	useEffect(() => {
-		if (output) {
-			setMYOutput(output);
-		}
-	}, [output]);
-
 	// const handleCodeSubmit = () => {
 	// 	runCodeSnippet(codeSnippet, language);
 	// };

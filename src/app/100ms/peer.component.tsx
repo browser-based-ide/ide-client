@@ -13,12 +13,6 @@ function Peer({ peer }) {
 		toggleVideo,
 	} = useAVToggle();
 
-	// write a code to check if muted or not
-	// const isMuted = () => {
-	// 	if (isLocalAudioEnabled) {
-	// 		return "Mute";
-	// 	} else {
-	// 		return "Unmute";
 
 	const hmsActions = useHMSActions();
 	const navigate = useNavigate();
@@ -26,6 +20,8 @@ function Peer({ peer }) {
 		await hmsActions.leave();
 		navigate("/dashboard");
 	};
+
+	
 	return (
 		<div className="peer-container">
 			<video

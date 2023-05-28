@@ -1,6 +1,5 @@
 import { selectPeers, useHMSActions, useHMSStore } from "@100mslive/react-sdk";
 import { useEffect } from "react";
-import uuid4 from "uuid4";
 import { networkService } from "../../services";
 import Peer from "./peer.component";
 
@@ -11,20 +10,20 @@ const Audio = ({ roomId, userName }) => {
 
 	useEffect(() => {
 		const joinRoom = async () => {
-			// use room code to fetch auth token
-
 			try {
-				const authToken = await networkService.post<any>(
-					"100ms/get-token",
+				const roomData = await networkService.post<any>(
+					"100ms/create-room",
 					{
-						userId: await uuid4(),
-						roomId: "6423e6cda42edf3910cbdd84",
+						sessionID: roomId,
+						userID: userName
 					}
 				);
 
+				console.log(roomData.token.appToken);
+
 				await hmsActions.join({
 					userName,
-					authToken: authToken.token,
+					authToken: roomData.token.appToken,
 					settings: {
 						isVideoMuted: true,
 					},
@@ -34,7 +33,7 @@ const Audio = ({ roomId, userName }) => {
 			}
 		};
 		joinRoom();
-	}, [hmsActions]);
+	}, [hmsActions, roomId, userName]);
 
 	useEffect(() => {
 		window.onunload = () => {

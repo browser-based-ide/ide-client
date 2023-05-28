@@ -1,7 +1,7 @@
 import { SocketOptions } from "dgram";
 import * as monaco from "monaco-editor";
 import { useEffect, useRef, useState } from "react";
-import { io, ManagerOptions, Socket } from "socket.io-client";
+import { ManagerOptions, Socket, io } from "socket.io-client";
 import { SocketActions } from "../utils/socket.util";
 
 interface Client {
@@ -80,17 +80,10 @@ const useSocket = (
 				cursorPositionsForSessionId, //	<--- can be used after
 			}: JoinedPayload) => {
 				setCurrentUserJoined(clients);
-				console.log(
-					"cursorPositionsForSessionId",
-					cursorPositionsForSessionId
-				);
 
 				// sync cursors
 				setCursors(cursorPositionsForSessionId);
-				console.log(
-					"cursorPositionsForSessionId",
-					cursorPositionsForSessionId
-				);
+
 
 				const currentCode = editorRef.current?.getValue();
 				socketRef.current.emit(SocketActions.SYNC_CODE, {
@@ -181,8 +174,8 @@ const useSocket = (
 			socketRef.current?.off(SocketActions.CURSOR_POSITION_CHANGED);
 			socketRef.current?.off(SocketActions.DISCONNECTED);
 			socketRef.current?.disconnect();
-		};
-	}, [authUserName, sessionId]);
+		}; 
+	}, [authUserName, editorRef, sessionId, setCode, setCursors]);
 
 	return { currentUserJoined, socketRef };
 };
