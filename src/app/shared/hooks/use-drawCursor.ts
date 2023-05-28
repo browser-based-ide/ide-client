@@ -86,9 +86,6 @@ const useDrawCursor = (
 		};
 
 		if (cursorPosition !== null && cursors !== null) {
-			// iterate over cursors and draw them
-			// editorRef.current.removeContentWidget();
-			// editorRef.current.getC
 			Object.keys(cursors).forEach((key) => {
 				const { userName, cursorPosition } = cursors[key];
 				const decorator =
@@ -98,7 +95,7 @@ const useDrawCursor = (
 				drawCursor(userName, cursorPosition, decorator);
 			});
 		}
-	}, [editorRef.current, cursors]);
+	}, [cursorPosition, cursors, editorRef, setCursorDecorator]);
 };
 
 export default useDrawCursor;
