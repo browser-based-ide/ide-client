@@ -6,29 +6,12 @@ import ProfileDropdown from "./profile-dropdown.component";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	// const location = useLocation();
-	// const [language, codeSnippet, runCodeSnippet, setLanguage] =
-	// 	useCodeEditorState((state) => [
-	// 		state.language,
-	// 		state.codeSnippet,
-	// 		state.runCodeSnippet,
-	// 		state.setLanguage,
-	// 	]);
-
-	// const languagesOptions = ["Python", "Javascript", "Cpp", "Java"];
-	// const onLanguageChangeHandler = (
-	// 	event: React.ChangeEvent<HTMLSelectElement>
-	// ) => {
-	// 	event.preventDefault();
-	// 	console.log("User Selected Value - ", event.target.value);
-	// 	setLanguage(event.target.value as languagesOptions);
-	// };
-
-	// const handleCodeSubmit = () => {
-	// 	runCodeSnippet(codeSnippet, language);
-	// };
 
 	function closeModal() {
+		// write the current url to clipboard
+		navigator.clipboard.writeText(window.location.href);
+		
+
 		setIsOpen(false);
 	}
 
@@ -45,7 +28,7 @@ const Navbar = () => {
 
 	return (
 		<nav className="h-14 py-4 px-6 flex justify-between bg-neutral-900 items-center text-gray-50">
-			<Link to="/">
+			<Link to="/dashboard">
 				<div className="font-mono text-2xl font-bold cyan-500 text-gray-900">
 					<h1 className="text-[#7DCE13]">IDE</h1>
 				</div>
@@ -56,7 +39,7 @@ const Navbar = () => {
 						return (
 							<img
 								key={index}
-								className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+								className="w-10 h-10 border-2 border-none rounded-full "
 								src={`https://source.boringavatars.com/beam/120/${peer?.name}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
 								alt=""
 							/>
@@ -64,15 +47,12 @@ const Navbar = () => {
 					})}
 
 					<a
-						className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+						className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-none rounded-full"
 						href="#">
 						+1
 					</a>
 				</div>
 				<div className="flex items-center gap-4">
-					<div className="flex item-flex">
-						<ProfileDropdown />
-					</div>
 					<button
 						className="bg-[#137DCE] px-4 py-2 text-neutral-50 rounded-md font-medium flex items-center gap-2"
 						onClick={handleSessionInvite}>
@@ -86,6 +66,9 @@ const Navbar = () => {
 
 						<div>Invite</div>
 					</button>
+					<div className="flex item-flex">
+						<ProfileDropdown />
+					</div>
 				</div>
 				<Transition appear show={isOpen} as={Fragment}>
 					<Dialog
@@ -113,7 +96,7 @@ const Navbar = () => {
 									leave="ease-in duration-200"
 									leaveFrom="opacity-100 scale-100"
 									leaveTo="opacity-0 scale-95">
-									<Dialog.Panel className="w-full mt-48 h-96 max-w-lg transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all flex flex-col">
+									<Dialog.Panel className="w-full mt-48 h-70 max-w-lg transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all flex flex-col">
 										<Dialog.Title
 											as="h3"
 											className="text-lg font-medium leading-6 text-neutral-50">
@@ -121,14 +104,7 @@ const Navbar = () => {
 										</Dialog.Title>
 										<div className="mt-2">
 											<p className="text-sm text-gray-500">
-												Lorem ipsum dolor sit amet
-												consectetur adipisicing elit.
-												Consequuntur similique ea
-												commodi ipsa veritatis dolorum.
-												Ea molestias blanditiis dolorem
-												nostrum doloribus atque, maiores
-												voluptatem inventore aperiam.
-												Ipsa ea inventore iusto?
+												Share this link to invite people to your session and start collaborating. Anyone with this link will be able to join your session. 	
 											</p>
 										</div>
 
@@ -147,28 +123,6 @@ const Navbar = () => {
 					</Dialog>
 				</Transition>
 			</div>
-			{/* {location.pathname.startsWith("/editor") && (
-				<div className="flex gap-4">
-					<select
-						onChange={onLanguageChangeHandler}
-						className="px-4 bg-gray-100 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-						{languagesOptions.map((option, index) => {
-							return <option key={index}>{option}</option>;
-						})}
-					</select>
-
-					<button
-						onClick={handleCodeSubmit}
-						className="bg-green-500 px-6 mr-2 text-gray-900 text-base font-bold">
-						RUN
-					</button>
-				</div>
-			)} */}
-			{/* <div>
-        <ul className='flex gap-4 justify-center items-center'>
-          <li>Logout</li>
-        </ul>
-      </div> */}
 		</nav>
 	);
 };

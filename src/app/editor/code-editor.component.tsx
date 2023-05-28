@@ -43,6 +43,8 @@ const CodeEditor: React.FC = () => {
 			top: 10,
 		},
 		cursorBlinking: "solid",
+		fixedOverflowWidgets: true,
+		
 	};
 
 	const authUserName = useAuthStore((state) => state.userName);
