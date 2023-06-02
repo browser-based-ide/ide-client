@@ -46,7 +46,9 @@ const CodeEditor: React.FC = () => {
 		fixedOverflowWidgets: true,
 	};
 
-	const authUserName = useAuthStore((state) => getEmailInitial(state?.user.firstName));
+	const authUserName = useAuthStore((state) =>
+		getEmailInitial(state?.user.firstName)
+	);
 	// TODO remove dependency on zustand store
 	const [
 		language,
