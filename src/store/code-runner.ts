@@ -1,8 +1,9 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { networkService } from "../services";
+import sortedLanguages from "../app/shared/utils/supported-languages";
 
-export type languagesOptions = "Javascript" | "Python" | "Cpp" | "Java";
+export type languagesOptions = "Javascript" | "Python3" | "Cpp" | "Java";
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors
@@ -16,8 +17,9 @@ interface codeEditorState {
 }
 
 interface codeRunnerResponseInterface {
-	output: string; // console log
-	consoleError: string; // compiler errors
+	stdout: string; // console log
+	error: string; // compiler errors
+	stderr: string
 }
 
 const useCodeEditorState = create<codeEditorState>()(
@@ -29,22 +31,37 @@ const useCodeEditorState = create<codeEditorState>()(
 				netWorkError: "",
 				loading: false,
 				codeSnippet: "",
-				language: "Python",
+				language: "Python3",
 				runCodeSnippet: async (
 					codeSnippet: string,
 					language: string
 				) => {
-					const data = { codeSnippet, language };
+					// const data = { codeSnippet, language };
+					const currentLanguage = sortedLanguages[language.toLocaleLowerCase()];
+					const data = {
+							language:currentLanguage.language,
+							executionMode: "file",
+							executeFile: `index${currentLanguage.fileExtension as string}`,
+							files: [
+							  {
+								fileName: `index${currentLanguage.fileExtension as string}`,
+								sourceCode: codeSnippet
+							  }
+							],
+							stdin: "",
+							args: ""
+						
+					  }
 					const response: codeRunnerResponseInterface =
 						await networkService.post(
-							"http://localhost:4200/api/code/run",
+							"http://localhost:3000/api/execute",
 							data
 						);
-					console.log(response);
+					console.log(response?.stdout);
 
 					set((state) => ({
-						output: response?.output,
-						consoleError: response?.consoleError,
+						output: response?.stdout,
+						consoleError: response?.stderr || response?.error || "",
 					}));
 				},
 				updateCodeSnippet: (codeSnippet: string) => {

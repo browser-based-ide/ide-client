@@ -111,7 +111,7 @@ const CodeEditor: React.FC = () => {
 	useEffect(() => {
 		if (language === "Javascript") {
 			setCode(`console.log('Hello World')`);
-		} else if (language === "Python") {
+		} else if (language === "Python3") {
 			setCode(`print('Hello World')`);
 		} else if (language === "Java") {
 			setCode(`System.out.println("Hello World");`);
@@ -124,6 +124,9 @@ const CodeEditor: React.FC = () => {
     }`);
 		}
 	}, [language]);
+
+
+	
 
 	const handleEditorChange = (value: string | undefined, event: any) => {
 		if (value) {
@@ -195,7 +198,6 @@ const CodeEditor: React.FC = () => {
 		return classes.filter(Boolean).join(" ");
 	}
 
-	const [MYOutput, setMYOutput] = useState("");
 
 	// const handleCodeSubmit = () => {
 	// 	runCodeSnippet(codeSnippet, language);
@@ -507,7 +509,7 @@ const CodeEditor: React.FC = () => {
 														minSize={20}
 														className=" bg-[#1e1e1e] text-cyan-50 flex flex-col gap-4 h-full">
 														<CodeEditorConsole
-															output={MYOutput}
+															output={output}
 															consoleError={
 																consoleError
 															}
