@@ -3,23 +3,22 @@ import { devtools, persist } from "zustand/middleware";
 import { networkService } from "../services";
 import sortedLanguages from "../app/shared/utils/supported-languages";
 
-export type languagesOptions = "Javascript" | "Python3" | "Cpp" | "Java";
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors
 	netWorkError: string; // network like 404, 501
 	loading: boolean;
-	language: languagesOptions;
+	language: any;
 	codeSnippet: string;
 	runCodeSnippet: (codeSnippet: string, language: string) => void;
 	updateCodeSnippet: (codeSnippet: string) => void;
-	setLanguage: (language: languagesOptions) => void;
+	setLanguage: (language: any) => void;
 }
 
 interface codeRunnerResponseInterface {
 	stdout: string; // console log
 	error: string; // compiler errors
-	stderr: string
+	stderr: string;
 }
 
 const useCodeEditorState = create<codeEditorState>()(
@@ -31,27 +30,33 @@ const useCodeEditorState = create<codeEditorState>()(
 				netWorkError: "",
 				loading: false,
 				codeSnippet: "",
-				language: "Python3",
+				language: "javascript",
 				runCodeSnippet: async (
 					codeSnippet: string,
 					language: string
 				) => {
 					// const data = { codeSnippet, language };
-					const currentLanguage = sortedLanguages[language.toLocaleLowerCase()];
+					const currentLanguage =
+						sortedLanguages[language.toLocaleLowerCase()];
 					const data = {
-							language:currentLanguage.language,
-							executionMode: "file",
-							executeFile: `index${currentLanguage.fileExtension as string}`,
-							files: [
-							  {
-								fileName: `index${currentLanguage.fileExtension as string}`,
-								sourceCode: codeSnippet
-							  }
-							],
-							stdin: "",
-							args: ""
-						
-					  }
+						language: currentLanguage.language,
+						executionMode: "file",
+						executeFile: currentLanguage.fileName,
+						// executeFile: `index.${
+						// 	currentLanguage.fileExtension as string
+						// }`,
+						files: [
+							{
+								fileName: currentLanguage.fileName,
+								// fileName: `index.${
+								// 	currentLanguage.fileExtension as string
+								// }`,
+								sourceCode: codeSnippet,
+							},
+						],
+						stdin: "",
+						args: "",
+					};
 					const response: codeRunnerResponseInterface =
 						await networkService.post(
 							"http://localhost:3000/api/execute",
@@ -67,7 +72,7 @@ const useCodeEditorState = create<codeEditorState>()(
 				updateCodeSnippet: (codeSnippet: string) => {
 					set((state) => ({ codeSnippet }));
 				},
-				setLanguage: (language: languagesOptions) => {
+				setLanguage: (language: any) => {
 					set((state) => ({ language }));
 				},
 			}),

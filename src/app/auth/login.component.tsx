@@ -45,7 +45,7 @@ const Login: React.FC = () => {
 			let appUser = await networkService.get<IUser>(
 				`user?email=${userEmail}`
 			);
-console.log(appUser)
+			console.log(appUser);
 			// add app user if doesn't exist one
 			if (!appUser) {
 				appUser = await networkService.post<IUser>("user", {

@@ -56,7 +56,7 @@ const CodeEditorConsole: React.FC<Props> = ({ output, consoleError }) => {
 									whiteSpace: "pre-wrap",
 								}}
 								className="text-green-600 h-1/2">
-								{output.length > 0 ? output : ""}
+								{/* {output.length > 0 ? output : ""} */ output}
 							</div>
 							<h3 className="border-b-[1px] border-neutral-700">
 								Errors
