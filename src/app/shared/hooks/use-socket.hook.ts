@@ -53,7 +53,7 @@ const useSocket = (
 			reconnection: true,
 		};
 
-		socketRef.current = io("http://localhost:4000/", options);
+		socketRef.current = io(process.env.REACT_APP_BASE_URL, options);
 		socketRef.current.on("connect_error", (err: Error) =>
 			handleErrors(err)
 		);

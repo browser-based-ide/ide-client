@@ -42,15 +42,9 @@ const useCodeEditorState = create<codeEditorState>()(
 						language: currentLanguage.language,
 						executionMode: "file",
 						executeFile: currentLanguage.fileName,
-						// executeFile: `index.${
-						// 	currentLanguage.fileExtension as string
-						// }`,
 						files: [
 							{
 								fileName: currentLanguage.fileName,
-								// fileName: `index.${
-								// 	currentLanguage.fileExtension as string
-								// }`,
 								sourceCode: codeSnippet,
 							},
 						],
@@ -59,7 +53,7 @@ const useCodeEditorState = create<codeEditorState>()(
 					};
 					const response: codeRunnerResponseInterface =
 						await networkService.post(
-							"http://localhost:3000/api/execute",
+							`${process.env.REACT_APP_COMPILER_URL}/api/execute`,
 							data
 						);
 					console.log(response?.stdout);
