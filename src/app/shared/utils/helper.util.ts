@@ -27,7 +27,6 @@ export function getEmailInitial(email) {
 	return initials;
 }
 
-
 export function getPropertyValue<T>(
 	object: { [key: string]: any },
 	propertyPath: string,
