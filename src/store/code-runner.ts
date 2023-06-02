@@ -41,14 +41,16 @@ const useCodeEditorState = create<codeEditorState>()(
 					const data = {
 						language: currentLanguage.language,
 						executionMode: "file",
-						executeFile: `index${
-							currentLanguage.fileExtension as string
-						}`,
+						executeFile: currentLanguage.fileName,
+						// executeFile: `index.${
+						// 	currentLanguage.fileExtension as string
+						// }`,
 						files: [
 							{
-								fileName: `index${
-									currentLanguage.fileExtension as string
-								}`,
+								fileName: currentLanguage.fileName,
+								// fileName: `index.${
+								// 	currentLanguage.fileExtension as string
+								// }`,
 								sourceCode: codeSnippet,
 							},
 						],

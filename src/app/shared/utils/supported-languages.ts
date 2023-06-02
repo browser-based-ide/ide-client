@@ -284,36 +284,36 @@ const supportedLanguages = {
 		keywords:
 			"Online Fortran Compiler, Fortran Online Compiler, Run Fortran Online, Compile Fortran Online, jitcompiler, online compiler, free online compiler",
 	},
-	groovy: {
-		languageName: "Groovy",
-		language: "groovy",
-		version: "3.0.4",
-		compiler: "groovy",
-		fileExtension: "groovy",
-		fileName: "main.groovy",
-		defaultCode:
-			'// A hello world program in groovy\nprintln "Hello, World!"\n',
-		title: "Online Groovy Compiler - JIT Compiler",
-		description:
-			"Online groovy compiler in your browser. Write, compile and run groovy code online using jitcompiler. Online Groovy Compiler, Online Groovy Editor, Online Groovy IDE, Execute Groovy Online, Compile Groovy Online, Run Groovy Online",
-		keywords:
-			"Online Groovy Compiler, Groovy Online Compiler, Run Groovy Online, Compile Groovy Online, jitcompiler, online compiler, free online compiler",
-	},
-	kotlin: {
-		languageName: "Kotlin",
-		language: "kotlin",
-		version: null,
-		compiler: "kotlinc",
-		fileExtension: "kt",
-		fileName: "main.kt",
-		defaultCode:
-			'// A hello world program in kotlin\nfun main() {\n  println("Hello, World!")\n}\n',
-		title: "Online Kotlin Compiler - JIT Compiler",
-		description:
-			"Online kotlin compiler in your browser. Write, compile and run kotlin code online using jitcompiler. Online Kotlin Compiler, Online Kotlin Editor, Online Kotlin IDE, Execute Kotlin Online, Compile Kotlin Online, Run Kotlin Online",
-		keywords:
-			"Online Kotlin Compiler, Kotlin Online Compiler, Run Kotlin Online, Compile Kotlin Online, jitcompiler, online compiler, free online compiler",
-	},
+	// groovy: {
+	// 	languageName: "Groovy",
+	// 	language: "groovy",
+	// 	version: "3.0.4",
+	// 	compiler: "groovy",
+	// 	fileExtension: "groovy",
+	// 	fileName: "main.groovy",
+	// 	defaultCode:
+	// 		'// A hello world program in groovy\nprintln "Hello, World!"\n',
+	// 	title: "Online Groovy Compiler - JIT Compiler",
+	// 	description:
+	// 		"Online groovy compiler in your browser. Write, compile and run groovy code online using jitcompiler. Online Groovy Compiler, Online Groovy Editor, Online Groovy IDE, Execute Groovy Online, Compile Groovy Online, Run Groovy Online",
+	// 	keywords:
+	// 		"Online Groovy Compiler, Groovy Online Compiler, Run Groovy Online, Compile Groovy Online, jitcompiler, online compiler, free online compiler",
+	// },
+	// kotlin: {
+	// 	languageName: "Kotlin",
+	// 	language: "kotlin",
+	// 	version: null,
+	// 	compiler: "kotlinc",
+	// 	fileExtension: "kt",
+	// 	fileName: "main.kt",
+	// 	defaultCode:
+	// 		'// A hello world program in kotlin\nfun main() {\n  println("Hello, World!")\n}\n',
+	// 	title: "Online Kotlin Compiler - JIT Compiler",
+	// 	description:
+	// 		"Online kotlin compiler in your browser. Write, compile and run kotlin code online using jitcompiler. Online Kotlin Compiler, Online Kotlin Editor, Online Kotlin IDE, Execute Kotlin Online, Compile Kotlin Online, Run Kotlin Online",
+	// 	keywords:
+	// 		"Online Kotlin Compiler, Kotlin Online Compiler, Run Kotlin Online, Compile Kotlin Online, jitcompiler, online compiler, free online compiler",
+	// },
 	haskell: {
 		languageName: "Haskell",
 		language: "haskell",
@@ -359,21 +359,21 @@ const supportedLanguages = {
 		keywords:
 			"Online Lua Compiler, Lua Online Compiler, Run Lua Online, Compile Lua Online, jitcompiler, online compiler, free online compiler",
 	},
-	"objective-c": {
-		languageName: "Objective-C",
-		language: "objective-c",
-		version: "7.5.0",
-		compiler: "gcc",
-		fileExtension: "m",
-		fileName: "main.m",
-		defaultCode:
-			'#import<Foundation/Foundation.h>\n// A hello world program in objective-c\nint main(int argc, const char * argv[]) {\n  NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];\n  NSLog(@"Hello, World!");\n  [pool drain];\n  return 0;\n}\n',
-		title: "Online Objective-C Compiler - JIT Compiler",
-		description:
-			"Online objective-c compiler in your browser. Write, compile and run objective-c code online using jitcompiler. Online Objective-C Compiler, Online Objective-C Editor, Online Objective-C IDE, Execute Objective-C Online, Compile Objective-C Online, Run Objective-C Online",
-		keywords:
-			"Online Objective-C Compiler, Objective-C Online Compiler, Run Objective-C Online, Compile Objective-C Online, jitcompiler, online compiler, free online compiler",
-	},
+	// "objective-c": {
+	// 	languageName: "Objective-C",
+	// 	language: "objective-c",
+	// 	version: "7.5.0",
+	// 	compiler: "gcc",
+	// 	fileExtension: "m",
+	// 	fileName: "main.m",
+	// 	defaultCode:
+	// 		'#import<Foundation/Foundation.h>\n// A hello world program in objective-c\nint main(int argc, const char * argv[]) {\n  NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];\n  NSLog(@"Hello, World!");\n  [pool drain];\n  return 0;\n}\n',
+	// 	title: "Online Objective-C Compiler - JIT Compiler",
+	// 	description:
+	// 		"Online objective-c compiler in your browser. Write, compile and run objective-c code online using jitcompiler. Online Objective-C Compiler, Online Objective-C Editor, Online Objective-C IDE, Execute Objective-C Online, Compile Objective-C Online, Run Objective-C Online",
+	// 	keywords:
+	// 		"Online Objective-C Compiler, Objective-C Online Compiler, Run Objective-C Online, Compile Objective-C Online, jitcompiler, online compiler, free online compiler",
+	// },
 	elixir: {
 		languageName: "Elixir",
 		language: "elixir",
@@ -613,21 +613,21 @@ const supportedLanguages = {
 		keywords:
 			"Online Sqlite3 Compiler, Sqlite3 Online Compiler, Run Sqlite3 Online, Compile Sqlite3 Online, jitcompiler, online compiler, free online compiler",
 	},
-	mysql: {
-		languageName: "MySQL",
-		language: "mysql",
-		version: "8.0.28",
-		compiler: "mysql",
-		fileExtension: "sql",
-		fileName: "main.sql",
-		defaultCode:
-			'-- Create table\nCREATE TABLE brands(id int, name text);\n\n-- Insert data in table\nINSERT INTO brands VALUES(1, "Apple");\nINSERT INTO brands VALUES(2, "Google");\n\n-- Select data from table\nSELECT * FROM brands;\n',
-		title: "Online MySQL Compiler - JIT Compiler",
-		description:
-			"Online mysql compiler in your browser. Write, compile and run mysql code online using jitcompiler. Online MySQL Compiler, Online MySQL Editor, Online MySQL IDE, Execute MySQL Online, Compile MySQL Online, Run MySQL Online",
-		keywords:
-			"Online MySQL Compiler, MySQL Online Compiler, Run MySQL Online, Compile MySQL Online, jitcompiler, online compiler, free online compiler",
-	},
+	// mysql: {
+	// 	languageName: "MySQL",
+	// 	language: "mysql",
+	// 	version: "8.0.28",
+	// 	compiler: "mysql",
+	// 	fileExtension: "sql",
+	// 	fileName: "main.sql",
+	// 	defaultCode:
+	// 		'-- Create table\nCREATE TABLE brands(id int, name text);\n\n-- Insert data in table\nINSERT INTO brands VALUES(1, "Apple");\nINSERT INTO brands VALUES(2, "Google");\n\n-- Select data from table\nSELECT * FROM brands;\n',
+	// 	title: "Online MySQL Compiler - JIT Compiler",
+	// 	description:
+	// 		"Online mysql compiler in your browser. Write, compile and run mysql code online using jitcompiler. Online MySQL Compiler, Online MySQL Editor, Online MySQL IDE, Execute MySQL Online, Compile MySQL Online, Run MySQL Online",
+	// 	keywords:
+	// 		"Online MySQL Compiler, MySQL Online Compiler, Run MySQL Online, Compile MySQL Online, jitcompiler, online compiler, free online compiler",
+	// },
 };
 
 const sortedLanguages = Object.keys(supportedLanguages)
