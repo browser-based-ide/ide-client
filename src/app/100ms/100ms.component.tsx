@@ -19,13 +19,12 @@ const Audio = ({ roomId, userName }) => {
 					}
 				);
 
-				console.log(roomData.token.appToken);
-
 				await hmsActions.join({
 					userName,
 					authToken: roomData.token.appToken,
 					settings: {
 						isVideoMuted: true,
+						isAudioMuted: false,
 					},
 				});
 			} catch (error) {

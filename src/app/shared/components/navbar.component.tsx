@@ -1,16 +1,17 @@
 import { selectPeers, useHMSStore } from "@100mslive/react-sdk";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileDropdown from "./profile-dropdown.component";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [haveMorePeer, setHaveMorePeer] = useState(0);
+	const [peerList, setPeerList] = useState([]);
+	const peers = useHMSStore(selectPeers);
 
 	function closeModal() {
-		// write the current url to clipboard
 		navigator.clipboard.writeText(window.location.href);
-
 		setIsOpen(false);
 	}
 
@@ -22,8 +23,31 @@ const Navbar = () => {
 		openModal();
 	};
 
-	const peers = useHMSStore(selectPeers);
-	const names = ["asdf", "asdasdf", "oiry", "sdaf"];
+	useEffect(() => {
+		const newPeerList = [];
+		for (let index = 0; index < peers.length; index++) {
+			if (index >= 3) {
+				setHaveMorePeer((prevHaveMorePeer) => {
+					return peers.length - index;
+				});
+				break;
+			}
+			const peer = peers[index];
+			newPeerList.push(
+				<img
+					key={index}
+					className="w-10 h-10 border-2 border-none rounded-full "
+					src={`https://source.boringavatars.com/beam/120/${peer?.name}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+					alt=""
+				/>
+			);
+		}
+		setPeerList(newPeerList);
+	}, [peers]);
+
+	useEffect(() => {
+		console.log(peers);
+	}, [peers]);
 
 	return (
 		<nav className="h-14 py-4 px-6 flex justify-between bg-neutral-900 items-center text-gray-50">
@@ -34,22 +58,17 @@ const Navbar = () => {
 			</Link>
 			<div className="flex item-center">
 				<div className="flex -space-x-4 w-40">
-					{peers.map((peer, index) => {
-						return (
-							<img
-								key={index}
-								className="w-10 h-10 border-2 border-none rounded-full "
-								src={`https://source.boringavatars.com/beam/120/${peer?.name}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
-								alt=""
-							/>
-						);
-					})}
+					{peerList.map((peer, index) => (
+						<div key={index}>{peer}</div>
+					))}
 
-					<a
-						className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-none rounded-full"
-						href="#">
-						+1
-					</a>
+					{haveMorePeer > 0 && (
+						<a
+							className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-none rounded-full"
+							href="#">
+							+{haveMorePeer}
+						</a>
+					)}
 				</div>
 				<div className="flex items-center gap-4">
 					<button

@@ -1,7 +1,7 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { networkService } from "../services";
 import sortedLanguages from "../app/shared/utils/supported-languages";
+import { networkService } from "../services";
 
 interface codeEditorState {
 	output: string; // console log
@@ -13,6 +13,7 @@ interface codeEditorState {
 	runCodeSnippet: (codeSnippet: string, language: string) => void;
 	updateCodeSnippet: (codeSnippet: string) => void;
 	setLanguage: (language: any) => void;
+	setOutput: (output: string) => void;
 }
 
 interface codeRunnerResponseInterface {
@@ -35,7 +36,6 @@ const useCodeEditorState = create<codeEditorState>()(
 					codeSnippet: string,
 					language: string
 				) => {
-					// const data = { codeSnippet, language };
 					const currentLanguage =
 						sortedLanguages[language.toLocaleLowerCase()];
 					const data = {
@@ -68,6 +68,9 @@ const useCodeEditorState = create<codeEditorState>()(
 				},
 				setLanguage: (language: any) => {
 					set((state) => ({ language }));
+				},
+				setOutput: (output: string) => {
+					set((state) => ({ output }));
 				},
 			}),
 			{

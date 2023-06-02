@@ -1,11 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, RouteProps, useLocation } from "react-router-dom";
+import { useAuthenticated } from "../hooks";
 
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 	const location = useLocation();
-	const { isAuthenticated, isLoading } = useAuth0();
+	const { isLoading } = useAuth0();
 	const [showLoading, setShowLoading] = useState(true);
+	const isAuthenticated = useAuthenticated();
 
 	useEffect(() => {
 		if (!isLoading) {

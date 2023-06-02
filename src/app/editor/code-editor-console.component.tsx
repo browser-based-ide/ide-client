@@ -1,4 +1,6 @@
 import { Tab } from "@headlessui/react";
+import { useEffect, useRef } from "react";
+import useCodeEditorState from "../../store/code-runner";
 
 interface Props {
 	output: string;
@@ -9,6 +11,26 @@ const CodeEditorConsole: React.FC<Props> = ({ output, consoleError }) => {
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(" ");
 	}
+
+	const language = useCodeEditorState((state) => state.language);
+
+	const iFrameRef = useRef(null);
+
+	useEffect(() => {
+		if (language === "html") {
+			iFrameRef.current.style.display = "block";
+			iFrameRef.current.style.backgroundColor = "white";
+			iFrameRef.current.style.height = "100vh";
+			// give margin bottom
+			iFrameRef.current.style.paddingBottom = "30%";
+			iFrameRef.current.style.width = "100%";
+			const iframeDocument = iFrameRef.current.contentDocument;
+			iframeDocument.open();
+			iframeDocument.write(output);
+			iframeDocument.close();
+		}
+	}, [output, language]);
+
 	return (
 		<div className=" bg-[#1e1e1e] text-cyan-50  flex flex-col gap-4 h-full">
 			<Tab.Group>
@@ -46,25 +68,33 @@ const CodeEditorConsole: React.FC<Props> = ({ output, consoleError }) => {
 				</Tab.List>
 				<Tab.Panels>
 					<Tab.Panel>
-						<div className="p-2">
-							<h3 className="border-b-[1px] border-neutral-700">
-								Output
-								<p>{output}</p>
-							</h3>
-							<div
-								style={{
-									whiteSpace: "pre-wrap",
-								}}
-								className="text-green-600 h-1/2">
-								{/* {output.length > 0 ? output : ""} */ output}
+						{language !== "html" && (
+							<div className="p-2">
+								<h3 className="border-b-[1px] border-neutral-700">
+									Output
+								</h3>
+								<div
+									style={{
+										whiteSpace: "pre-wrap",
+									}}
+									className="text-green-600 h-1/2">
+									{output}
+								</div>
+								<h3 className="border-b-[1px] border-neutral-700">
+									Errors
+								</h3>
+								<div className="text-red-500">
+									{consoleError.length > 0
+										? consoleError
+										: ""}
+								</div>
 							</div>
-							<h3 className="border-b-[1px] border-neutral-700">
-								Errors
-							</h3>
-							<div className="text-red-500">
-								{consoleError.length > 0 ? consoleError : ""}
-							</div>
-						</div>
+						)}
+						{language === "html" && (
+							<iframe
+								className="w-full h-full hidden"
+								ref={iFrameRef}></iframe>
+						)}
 					</Tab.Panel>
 					<Tab.Panel>
 						<div className="flex w-full gap-4 p-2">

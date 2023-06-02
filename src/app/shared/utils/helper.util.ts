@@ -19,6 +19,15 @@ export function debounce(func: Function, wait: number, immediate: boolean) {
 	};
 }
 
+export function getEmailInitial(email) {
+	const parts = email.split("@");
+	const username = parts[0];
+	const initials = username.replace(/[^a-zA-Z]/g, "");
+
+	return initials;
+}
+
+
 export function getPropertyValue<T>(
 	object: { [key: string]: any },
 	propertyPath: string,

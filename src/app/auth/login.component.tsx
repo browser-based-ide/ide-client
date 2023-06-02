@@ -5,6 +5,7 @@ import { networkService } from "../../services";
 import { useAuthStore } from "../../store";
 import { IUser } from "../interfaces";
 import { useUser } from "../shared/hooks";
+import { getEmailInitial } from "../shared/utils/helper.util";
 
 const Login: React.FC = () => {
 	const appUser = useUser(),
@@ -51,7 +52,7 @@ const Login: React.FC = () => {
 				appUser = await networkService.post<IUser>("user", {
 					active: true,
 					email: user.email,
-					firstName: user.name,
+					firstName: getEmailInitial(user.email),
 				});
 			}
 

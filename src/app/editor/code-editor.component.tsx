@@ -1,10 +1,8 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import useCodeEditorState from "../../store/code-runner";
-import { SocketActions } from "../shared/utils/socket.util";
 import { Listbox, Transition } from "@headlessui/react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import {
 	ImperativePanelHandle,
 	Panel,
@@ -13,15 +11,16 @@ import {
 } from "react-resizable-panels";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useAuthStore } from "../../store";
+import useCodeEditorState from "../../store/code-runner";
 import Audio from "../100ms/100ms.component";
 import Navbar from "../shared/components/navbar.component";
+import { problems } from "../shared/config";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
-import CodeEditorConsole from "./code-editor-console.component";
-import { problems } from "../shared/config";
+import { SocketActions } from "../shared/utils/socket.util";
 import supportedLanguages from "../shared/utils/supported-languages";
-
-// loader.config({ monaco });
+import CodeEditorConsole from "./code-editor-console.component";
+import { getEmailInitial } from "../shared/utils/helper.util";
 
 const CodeEditor: React.FC = () => {
 	const options: monaco.editor.IStandaloneEditorConstructionOptions = {
@@ -47,7 +46,7 @@ const CodeEditor: React.FC = () => {
 		fixedOverflowWidgets: true,
 	};
 
-	const authUserName = useAuthStore((state) => state.userName);
+	const authUserName = useAuthStore((state) => getEmailInitial(state?.user.firstName));
 	// TODO remove dependency on zustand store
 	const [
 		language,
@@ -56,6 +55,7 @@ const CodeEditor: React.FC = () => {
 		codeSnippet,
 		setLanguage,
 		runCodeSnippet,
+		setOutput,
 	] = useCodeEditorState((state) => [
 		state.language,
 		state.output,
@@ -63,14 +63,12 @@ const CodeEditor: React.FC = () => {
 		state.codeSnippet,
 		state.setLanguage,
 		state.runCodeSnippet,
+		state.setOutput,
 	]);
 
 	const [code, setCode] = useState(supportedLanguages[language].defaultCode);
-	// const [showConsole, setShowConsole] = useState(true);
-	// const panelRef = useRef<ImperativePanelHandle>(null);
 	const { sessionId } = useParams();
 	const editorRef = useRef(null);
-	// const [decorator, setDecorator] = useState([]);
 	const [cursorDecorator, setCursorDecorator] = useState<{
 		[key: string]: { decorator: string[] };
 	}>(null);
@@ -82,7 +80,6 @@ const CodeEditor: React.FC = () => {
 	}>(null);
 
 	const [showConsole, setShowConsole] = useState(true);
-
 	const panelRef = useRef<ImperativePanelHandle>(null);
 
 	// TODO remove dependency from cursorPosition
@@ -150,6 +147,7 @@ const CodeEditor: React.FC = () => {
 
 	const onLanguageChangeHandler = (value) => {
 		setLanguage(value);
+		setOutput("");
 	};
 
 	const handleCodeSubmit = () => {
@@ -315,30 +313,6 @@ const CodeEditor: React.FC = () => {
 									<Panel className="flex flex-col flex-1 min-h-screen max-h-[calc(100vh-40rem)]">
 										<div className="flex flex-col h-[calc(100vh-3.5rem)]">
 											<div className="py-2 flex justify-between items-center">
-												{/* <select
-													onChange={
-														onLanguageChangeHandler
-													}
-													value={language}
-													className="bg-gray-50 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-[#1e1e1e] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-													{Object.values(supportedLanguages).map(
-														(language) => {
-															return (
-																<option
-																	value={
-																		language.language
-																	}
-																	key={
-																		language.language
-																	}>
-																	{
-																		language.languageName
-																	}
-																</option>
-															);
-														}
-													)}
-												</select> */}
 												<Listbox
 													value={language}
 													onChange={
@@ -518,9 +492,6 @@ const CodeEditor: React.FC = () => {
 													<Panel
 														ref={panelRef}
 														collapsible={true}
-														// onCollapse={
-														// 	() => setShowConsole(false)
-														// }
 														minSize={20}
 														className=" bg-[#1e1e1e] text-cyan-50 flex flex-col gap-4 h-full">
 														<CodeEditorConsole
