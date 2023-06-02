@@ -148,9 +148,7 @@ const CodeEditor: React.FC = () => {
 		});
 	};
 
-	const onLanguageChangeHandler = (
-		value
-	) => {
+	const onLanguageChangeHandler = (value) => {
 		setLanguage(value);
 	};
 
@@ -353,7 +351,10 @@ const CodeEditor: React.FC = () => {
 																	<span className="flex items-center">
 																		<span className="ml-3 block truncate">
 																			{
-																				supportedLanguages[language].languageName
+																				supportedLanguages[
+																					language
+																				]
+																					.languageName
 																			}
 																		</span>
 																	</span>
@@ -482,9 +483,7 @@ const CodeEditor: React.FC = () => {
 															onMount={
 																handleEditorDidMount
 															}
-															language={
-																language
-															}
+															language={language}
 															value={code}
 															className=""
 														/>

@@ -10,7 +10,6 @@ const Navbar = () => {
 	function closeModal() {
 		// write the current url to clipboard
 		navigator.clipboard.writeText(window.location.href);
-		
 
 		setIsOpen(false);
 	}
@@ -104,7 +103,11 @@ const Navbar = () => {
 										</Dialog.Title>
 										<div className="mt-2">
 											<p className="text-sm text-gray-500">
-												Share this link to invite people to your session and start collaborating. Anyone with this link will be able to join your session. 	
+												Share this link to invite people
+												to your session and start
+												collaborating. Anyone with this
+												link will be able to join your
+												session.
 											</p>
 										</div>
 

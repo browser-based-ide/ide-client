@@ -3,7 +3,6 @@ import { devtools, persist } from "zustand/middleware";
 import { networkService } from "../services";
 import sortedLanguages from "../app/shared/utils/supported-languages";
 
-
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors
@@ -19,7 +18,7 @@ interface codeEditorState {
 interface codeRunnerResponseInterface {
 	stdout: string; // console log
 	error: string; // compiler errors
-	stderr: string
+	stderr: string;
 }
 
 const useCodeEditorState = create<codeEditorState>()(
@@ -37,21 +36,25 @@ const useCodeEditorState = create<codeEditorState>()(
 					language: string
 				) => {
 					// const data = { codeSnippet, language };
-					const currentLanguage = sortedLanguages[language.toLocaleLowerCase()];
+					const currentLanguage =
+						sortedLanguages[language.toLocaleLowerCase()];
 					const data = {
-							language:currentLanguage.language,
-							executionMode: "file",
-							executeFile: `index${currentLanguage.fileExtension as string}`,
-							files: [
-							  {
-								fileName: `index${currentLanguage.fileExtension as string}`,
-								sourceCode: codeSnippet
-							  }
-							],
-							stdin: "",
-							args: ""
-						
-					  }
+						language: currentLanguage.language,
+						executionMode: "file",
+						executeFile: `index${
+							currentLanguage.fileExtension as string
+						}`,
+						files: [
+							{
+								fileName: `index${
+									currentLanguage.fileExtension as string
+								}`,
+								sourceCode: codeSnippet,
+							},
+						],
+						stdin: "",
+						args: "",
+					};
 					const response: codeRunnerResponseInterface =
 						await networkService.post(
 							"http://localhost:3000/api/execute",
