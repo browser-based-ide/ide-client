@@ -95,13 +95,7 @@ const useDrawCursor = (
 				drawCursor(userName, cursorPosition, decorator);
 			});
 		}
-	}, [
-		cursorPosition,
-		cursors,
-		editorRef,
-		setCursorDecorator,
-		cursorDecorator,
-	]);
+	}, [cursorPosition, cursors, editorRef, setCursorDecorator]);
 };
 
 export default useDrawCursor;
