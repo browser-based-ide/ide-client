@@ -26,7 +26,7 @@ const problems = {
 		],
 	},
 	"2": {
-		title: "Calculator with Python",
+		title: "Calculator",
 		description:
 			"You are tasked with building a simple calculator tool that can perform basic arithmetic operations. The tool should allow users to input two numbers and choose an operation (addition, multiplication, or division), and then display the result of the operation. Additionally, the tool should be able to handle input validation to prevent errors from occurring.",
 		functionSignature:

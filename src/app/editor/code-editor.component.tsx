@@ -1,10 +1,10 @@
 import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 
-import React, { useEffect, useRef, useState } from "react";
-import useCodeEditorState, { languagesOptions } from "../../store/code-runner";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import useCodeEditorState from "../../store/code-runner";
 import { SocketActions } from "../shared/utils/socket.util";
-
+import { Listbox, Transition } from "@headlessui/react";
 import {
 	ImperativePanelHandle,
 	Panel,
@@ -19,6 +19,7 @@ import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
 import CodeEditorConsole from "./code-editor-console.component";
 import { problems } from "../shared/config";
+import supportedLanguages from "../shared/utils/supported-languages";
 
 // loader.config({ monaco });
 
@@ -44,7 +45,6 @@ const CodeEditor: React.FC = () => {
 		},
 		cursorBlinking: "solid",
 		fixedOverflowWidgets: true,
-		
 	};
 
 	const authUserName = useAuthStore((state) => state.userName);
@@ -65,7 +65,7 @@ const CodeEditor: React.FC = () => {
 		state.runCodeSnippet,
 	]);
 
-	const [code, setCode] = useState("");
+	const [code, setCode] = useState(supportedLanguages[language].defaultCode);
 	// const [showConsole, setShowConsole] = useState(true);
 	// const panelRef = useRef<ImperativePanelHandle>(null);
 	const { sessionId } = useParams();
@@ -109,24 +109,9 @@ const CodeEditor: React.FC = () => {
 
 	// set code on language change
 	useEffect(() => {
-		if (language === "Javascript") {
-			setCode(`console.log('Hello World')`);
-		} else if (language === "Python3") {
-			setCode(`print('Hello World')`);
-		} else if (language === "Java") {
-			setCode(`System.out.println("Hello World");`);
-		} else if (language === "Cpp") {
-			setCode(`#include <iostream>
-    using namespace std;
-    int main() {
-    cout << "Hello World";
-    return 0;
-    }`);
-		}
+		const defaultCode = supportedLanguages[language].defaultCode;
+		setCode(defaultCode);
 	}, [language]);
-
-
-	
 
 	const handleEditorChange = (value: string | undefined, event: any) => {
 		if (value) {
@@ -163,14 +148,10 @@ const CodeEditor: React.FC = () => {
 		});
 	};
 
-	const languagesOptions = ["Python", "Javascript", "Cpp", "Java"];
-
 	const onLanguageChangeHandler = (
-		event: React.ChangeEvent<HTMLSelectElement>
+		value
 	) => {
-		event.preventDefault();
-		console.log("User Selected Value - ", event.target.value);
-		setLanguage(event.target.value as languagesOptions);
+		setLanguage(value);
 	};
 
 	const handleCodeSubmit = () => {
@@ -198,30 +179,6 @@ const CodeEditor: React.FC = () => {
 		return classes.filter(Boolean).join(" ");
 	}
 
-
-	// const handleCodeSubmit = () => {
-	// 	runCodeSnippet(codeSnippet, language);
-	// };
-
-	// const handleCodeRun = () => {};
-
-	// const handlePanelOpen = () => {
-	// 	const panel = panelRef.current;
-	// 	if (panel) {
-	// 		if (showConsole) {
-	// 			panel.collapse();
-	// 			setShowConsole(false);
-	// 		} else {
-	// 			panel.expand();
-	// 			setShowConsole(true);
-	// 		}
-	// 	}
-	// };
-
-	// function classNames(...classes) {
-	// 	return classes.filter(Boolean).join(" ");
-	// }
-
 	const location = useLocation();
 
 	const currentProblem = location.pathname.split("/")[2];
@@ -243,81 +200,6 @@ const CodeEditor: React.FC = () => {
 									<Panel
 										className=" bg-[#1e1e1e]"
 										defaultSize={45}>
-										{/* <div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
-											<h1 className="text-3xl font-bold">
-												Calculator with Python
-											</h1>
-											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
-												Problem Description
-											</div>
-											<div className="mt-2">
-												<p>
-													
-												</p>
-											</div>
-											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
-												Function Signature
-											</div>
-											<div className="mt-2">
-												<p>
-													Implement the following
-													function:
-												</p>
-												<pre className=" bg-[#353535] rounded p-2 text-sm mt-2 mb-2">
-													<code>
-														function calculate(num1:
-														number, num2: number,
-														operator: string):
-														
-														<br />
-														{
-															" // Function logic goes here"
-														}
-													</code>
-												</pre>
-												<p>
-													The function should take in
-													two numbers (num1 and num2)
-													and an operator as input,
-													and it should return a
-													number representing the
-													result of the arithmetic
-													operation.
-												</p>
-											</div>
-											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
-												Example
-											</div>
-											<div className="mt-2">
-											
-												<p>
-													<strong>Input:</strong>{" "}
-													calculate(5, 3, '+')
-												</p>
-												<p>
-													<strong>Output:</strong> 8
-												</p>
-											</div>
-											<div className="mt-4 p-1  border-b-2 border-b-[#353535]">
-												Constraints
-											</div>
-											<div className="mt-2">
-											
-												<ul className="list-disc pl-6">
-													<li>
-														The input numbers will
-														be integers within the
-														range [1, 1000].
-													</li>
-													<li>
-														The operator will always
-														be a valid arithmetic
-														operator ('+', '-', '*',
-														'/').
-													</li>
-												</ul>
-											</div>
-										</div> */}
 										{
 											<div className="flex-1 bg-[#1e1e1e] text-white py-8 px-6">
 												<h1 className="text-3xl font-bold">
@@ -435,22 +317,154 @@ const CodeEditor: React.FC = () => {
 									<Panel className="flex flex-col flex-1 min-h-screen max-h-[calc(100vh-40rem)]">
 										<div className="flex flex-col h-[calc(100vh-3.5rem)]">
 											<div className="py-2 flex justify-between items-center">
-												<select
+												{/* <select
 													onChange={
 														onLanguageChangeHandler
 													}
+													value={language}
 													className="bg-gray-50 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-[#1e1e1e] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-													{languagesOptions.map(
-														(option, index) => {
+													{Object.values(supportedLanguages).map(
+														(language) => {
 															return (
 																<option
-																	key={index}>
-																	{option}
+																	value={
+																		language.language
+																	}
+																	key={
+																		language.language
+																	}>
+																	{
+																		language.languageName
+																	}
 																</option>
 															);
 														}
 													)}
-												</select>
+												</select> */}
+												<Listbox
+													value={language}
+													onChange={
+														onLanguageChangeHandler
+													}>
+													{({ open }) => (
+														<>
+															<div className="relative mt-2">
+																<Listbox.Button className="relative w-40 cursor-default rounded-md bg-dark py-2 pl-3 pr-10 text-left text-white shadow-sm sm:text-sm sm:leading-6 dark:text-white">
+																	<span className="flex items-center">
+																		<span className="ml-3 block truncate">
+																			{
+																				supportedLanguages[language].languageName
+																			}
+																		</span>
+																	</span>
+																	<span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+																		<svg
+																			xmlns="http://www.w3.org/2000/svg"
+																			fill="none"
+																			viewBox="0 0 24 24"
+																			strokeWidth={
+																				1.5
+																			}
+																			stroke="currentColor"
+																			className="h-5 w-5 text-gray-400"
+																			aria-hidden="true">
+																			<path
+																				strokeLinecap="round"
+																				strokeLinejoin="round"
+																				d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+																			/>
+																		</svg>
+																	</span>
+																</Listbox.Button>
+
+																<Transition
+																	show={open}
+																	as={
+																		Fragment
+																	}
+																	leave="transition ease-in duration-100"
+																	leaveFrom="opacity-100"
+																	leaveTo="opacity-0">
+																	<Listbox.Options className="absolute z-10 mt-1 max-h-56 w-40 overflow-auto rounded-md bg-dark  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+																		{Object.values(
+																			supportedLanguages
+																		).map(
+																			(
+																				language
+																			) => (
+																				<Listbox.Option
+																					key={
+																						language.language
+																					}
+																					className={({
+																						active,
+																					}) =>
+																						classNames(
+																							active
+																								? "bg-[#137DCE] text-white"
+																								: "text-white",
+																							"relative cursor-default select-none py-2 pl-3 pr-9"
+																						)
+																					}
+																					value={
+																						language.language
+																					}>
+																					{({
+																						selected,
+																						active,
+																					}) => (
+																						<>
+																							<div className="flex items-center">
+																								<span
+																									className={classNames(
+																										selected
+																											? "font-semibold"
+																											: "font-normal",
+																										"ml-3 block truncate"
+																									)}>
+																									{
+																										language.languageName
+																									}
+																								</span>
+																							</div>
+
+																							{selected ? (
+																								<span
+																									className={classNames(
+																										active
+																											? "text-white"
+																											: "text-[#137DCE]",
+																										"absolute inset-y-0 right-0 flex items-center pr-4"
+																									)}>
+																									<svg
+																										xmlns="http://www.w3.org/2000/svg"
+																										fill="none"
+																										viewBox="0 0 24 24"
+																										strokeWidth={
+																											1.5
+																										}
+																										stroke="currentColor"
+																										aria-hidden="true"
+																										className="w-5 h-5">
+																										<path
+																											strokeLinecap="round"
+																											strokeLinejoin="round"
+																											d="M4.5 12.75l6 6 9-13.5"
+																										/>
+																									</svg>
+																								</span>
+																							) : null}
+																						</>
+																					)}
+																				</Listbox.Option>
+																			)
+																		)}
+																	</Listbox.Options>
+																</Transition>
+															</div>
+														</>
+													)}
+												</Listbox>
 												<Audio
 													roomId={sessionId}
 													userName={authUserName}
@@ -468,7 +482,9 @@ const CodeEditor: React.FC = () => {
 															onMount={
 																handleEditorDidMount
 															}
-															language={language.toLocaleLowerCase()}
+															language={
+																language
+															}
 															value={code}
 															className=""
 														/>

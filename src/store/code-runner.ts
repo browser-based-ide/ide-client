@@ -3,17 +3,17 @@ import { devtools, persist } from "zustand/middleware";
 import { networkService } from "../services";
 import sortedLanguages from "../app/shared/utils/supported-languages";
 
-export type languagesOptions = "Javascript" | "Python3" | "Cpp" | "Java";
+
 interface codeEditorState {
 	output: string; // console log
 	consoleError: string; // compiler errors
 	netWorkError: string; // network like 404, 501
 	loading: boolean;
-	language: languagesOptions;
+	language: any;
 	codeSnippet: string;
 	runCodeSnippet: (codeSnippet: string, language: string) => void;
 	updateCodeSnippet: (codeSnippet: string) => void;
-	setLanguage: (language: languagesOptions) => void;
+	setLanguage: (language: any) => void;
 }
 
 interface codeRunnerResponseInterface {
@@ -31,7 +31,7 @@ const useCodeEditorState = create<codeEditorState>()(
 				netWorkError: "",
 				loading: false,
 				codeSnippet: "",
-				language: "Python3",
+				language: "javascript",
 				runCodeSnippet: async (
 					codeSnippet: string,
 					language: string
@@ -67,7 +67,7 @@ const useCodeEditorState = create<codeEditorState>()(
 				updateCodeSnippet: (codeSnippet: string) => {
 					set((state) => ({ codeSnippet }));
 				},
-				setLanguage: (language: languagesOptions) => {
+				setLanguage: (language: any) => {
 					set((state) => ({ language }));
 				},
 			}),
