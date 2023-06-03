@@ -95,13 +95,8 @@ const useDrawCursor = (
 				drawCursor(userName, cursorPosition, decorator);
 			});
 		}
-	}, [
-		cursorPosition,
-		cursors,
-		editorRef,
-		setCursorDecorator,
-		cursorDecorator,
-	]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cursorPosition, cursors, editorRef, setCursorDecorator]);
 };
 
 export default useDrawCursor;
