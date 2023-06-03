@@ -45,10 +45,6 @@ const Navbar = () => {
 		setPeerList(newPeerList);
 	}, [peers]);
 
-	useEffect(() => {
-		console.log(peers);
-	}, [peers]);
-
 	return (
 		<nav className="h-14 py-4 px-6 flex justify-between bg-neutral-900 items-center text-gray-50">
 			<Link to="/dashboard">

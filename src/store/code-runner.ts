@@ -56,7 +56,6 @@ const useCodeEditorState = create<codeEditorState>()(
 							`${process.env.REACT_APP_COMPILER_URL}/api/execute`,
 							data
 						);
-					console.log(response?.stdout);
 
 					set((state) => ({
 						output: response?.stdout,

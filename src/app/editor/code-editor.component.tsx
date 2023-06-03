@@ -17,10 +17,10 @@ import Navbar from "../shared/components/navbar.component";
 import { problems } from "../shared/config";
 import useDrawCursor from "../shared/hooks/use-drawCursor";
 import useSocket from "../shared/hooks/use-socket.hook";
+import { getEmailInitial } from "../shared/utils/helper.util";
 import { SocketActions } from "../shared/utils/socket.util";
 import supportedLanguages from "../shared/utils/supported-languages";
 import CodeEditorConsole from "./code-editor-console.component";
-import { getEmailInitial } from "../shared/utils/helper.util";
 
 const CodeEditor: React.FC = () => {
 	const options: monaco.editor.IStandaloneEditorConstructionOptions = {

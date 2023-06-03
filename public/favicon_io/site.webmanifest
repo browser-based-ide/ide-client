@@ -1,6 +1,6 @@
 {
-	"name": "",
-	"short_name": "",
+	"short_name": "IDE",
+	"name": "Browser Based IDE",
 	"icons": [
 		{
 			"src": "/android-chrome-192x192.png",
